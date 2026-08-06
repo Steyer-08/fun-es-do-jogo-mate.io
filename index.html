@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Cuia.IO</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+
+<div id="loadingScreen">
+
+    <div id="loadingBox">
+
+        <h1>🧉 CUIA.IO</h1>
+
+        <div class="loader"></div>
+
+        <p>Carregando a cidade...</p>
+
+    </div>
+
+</div>
+
+<div id="menu">
+
+    <div class="menuBox">
+
+        <h1>🧉 CUIA.IO</h1>
+
+        <p>
+
+            Engula tudo relacionado ao chimarrão.
+
+        </p>
+
+        <button id="playButton">
+
+            JOGAR
+
+        </button>
+
+    </div>
+
+</div>
+
+<div id="hud">
+
+    <div class="topLeft">
+
+        <h2>Tamanho</h2>
+
+        <span id="sizeText">
+
+            1
+
+        </span>
+
+    </div>
+
+    <div class="topCenter">
+
+        <h2>Nível</h2>
+
+        <span id="levelText">
+
+            1
+
+        </span>
+
+    </div>
+
+    <div class="topRight">
+
+        <h2>XP</h2>
+
+        <span id="xpText">
+
+            0
+
+        </span>
+
+    </div>
+
+</div>
+
+<div id="message">
+
+</div>
+
+<div id="pauseScreen">
+
+    <div class="pauseBox">
+
+        <h1>PAUSADO</h1>
+
+        <button id="resumeButton">
+
+            Continuar
+
+        </button>
+
+    </div>
+
+</div>
+
+<div id="victoryScreen">
+
+    <div class="victoryBox">
+
+        <h1>
+
+            🧉 Chimarrão Completo!
+
+        </h1>
+
+        <p>
+
+            Você conseguiu transformar o último prédio em uma bomba!
+
+        </p>
+
+        <button id="nextButton">
+
+            Próxima fase
+
+        </button>
+
+    </div>
+
+</div>
+
+<div id="gameOver">
+
+    <div class="gameOverBox">
+
+        <h1>Fim de jogo</h1>
+
+        <button id="restartButton">
+
+            Jogar novamente
+
+        </button>
+
+    </div>
+
+</div>
+
+<div id="minimap">
+
+    <canvas id="miniCanvas"></canvas>
+
+</div>
+
+<div id="joystick">
+
+    <div id="stick">
+
+    </div>
+</div>
+
+<div id="mobileButtons">
+
+    <button id="pauseMobile">
+
+        II
+
+    </button>
+
+</div>
+
+<canvas id="gameCanvas">
+
+</canvas>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+<!-- =====================================
+     HUD AVANÇADO
+===================================== -->
+
+<div id="advancedHUD">
+
+
+    <div id="objectiveBox">
+
+        <h3>Objetivo</h3>
+
+        <p id="objectiveText">
+            Engula tudo que conseguir!
+        </p>
+
+    </div>
+
+
+    <div id="xpBar">
+
+        <div id="xpFill"></div>
+
+    </div>
+
+
+    <div id="levelProgress">
+
+        <div id="levelProgressFill"></div>
+
+    </div>
+
+
+    <div id="itemsCounter">
+
+        <span id="itemsText">
+            Itens engolidos: 0
+        </span>
+
+    </div>
+
+
+</div>
+
+
+
+
+<!-- =====================================
+     CONTROLES DE JOGO
+===================================== -->
+
+
+<div id="gameControls">
+
+
+    <button id="soundButton">
+
+        🔊
+
+    </button>
+
+
+    <button id="fullscreenButton">
+
+        ⛶
+
+    </button>
+
+
+    <button id="pauseButton">
+
+        II
+
+    </button>
+
+
+</div>
+
+
+
+
+
+<!-- =====================================
+     MENU DE CONFIGURAÇÕES
+===================================== -->
+
+
+<div id="settingsScreen">
+
+
+    <div class="settingsBox">
+
+
+        <h1>
+
+            Configurações
+
+        </h1>
+
+
+
+        <label>
+
+            Volume
+
+        </label>
+
+
+        <input 
+        type="range"
+        id="volumeControl"
+        min="0"
+        max="100"
+        value="70">
+
+
+        <label>
+
+            Qualidade gráfica
+
+        </label>
+
+
+        <select id="graphicsQuality">
+
+
+            <option value="high">
+
+                Alta
+
+            </option>
+
+
+            <option value="medium">
+
+                Média
+
+            </option>
+
+
+            <option value="low">
+
+                Baixa
+
+            </option>
+
+
+        </select>
+
+
+
+        <button id="closeSettings">
+
+            Voltar
+
+        </button>
+
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+<!-- =====================================
+     SELEÇÃO DE FASE
+===================================== -->
+
+
+<div id="levelSelect">
+
+
+    <div class="levelBox">
+
+
+        <h1>
+
+            Escolha a fase
+
+        </h1>
+
+
+
+        <div class="levels">
+
+
+            <button class="levelButton"
+            data-level="1">
+
+                Fase 1<br>
+                Praça
+
+            </button>
+
+
+
+            <button class="levelButton"
+            data-level="2">
+
+                Fase 2<br>
+                Cidade
+
+            </button>
+
+
+
+
+            <button class="levelButton"
+            data-level="3">
+
+                Centro Gaúcho
+
+            </button>
+
+
+
+
+            <button class="levelButton"
+            data-level="4">
+
+                Cidade Grande
+
+            </button>
+
+
+        </div>
+
+
+
+        <button id="backMenu">
+
+            Voltar
+
+        </button>
+
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+<!-- =====================================
+     TELA FINAL COMPLETA
+===================================== -->
+
+
+<div id="finalScreen">
+
+
+    <div class="finalBox">
+
+
+        <h1>
+
+            🧉 Mestre do Chimarrão
+
+        </h1>
+
+
+
+        <div class="finalStats">
+
+
+            <p>
+
+            Tamanho final:
+            
+            <span id="finalSize">
+            0
+            </span>
+
+            </p>
+
+
+
+            <p>
+
+            Objetos engolidos:
+
+            <span id="finalItems">
+            0
+            </span>
+
+
+            </p>
+
+
+
+            <p>
+
+            Tempo:
+
+            <span id="finalTime">
+            0
+            </span>
+
+            segundos
+
+            </p>
+
+
+
+        </div>
+
+
+
+        <button id="playAgain">
+
+            Jogar novamente
+
+        </button>
+
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+<!-- =====================================
+     ÁUDIO DO JOGO
+===================================== -->
+
+
+<audio 
+id="eatSound"
+preload="auto">
+
+</audio>
+
+
+<audio 
+id="growSound"
+preload="auto">
+
+</audio>
+
+
+<audio 
+id="winSound"
+preload="auto">
+
+</audio>
+
+
+<audio 
+id="music"
+loop
+preload="auto">
+
+</audio>
+
+
+
+
+
+<!-- =====================================
+     JAVASCRIPT
+===================================== -->
+
+<!-- =====================================
+     SISTEMA DE CONQUISTAS
+===================================== -->
+
+
+<div id="achievementScreen">
+
+
+    <div class="achievementBox">
+
+
+        <h1>
+
+            🏆 Conquistas
+
+        </h1>
+
+
+
+        <div id="achievementList">
+
+
+            <div class="achievement locked">
+
+                💧 Primeira Gota
+
+                <span>
+
+                Engoliu a primeira água
+
+                </span>
+
+            </div>
+
+
+
+            <div class="achievement locked">
+
+                🌿 Mestre da Erva
+
+                <span>
+
+                Engoliu 100 ervas
+
+                </span>
+
+            </div>
+
+
+
+
+            <div class="achievement locked">
+
+                🧉 Cuia Gigante
+
+                <span>
+
+                Chegou ao tamanho máximo
+
+                </span>
+
+            </div>
+
+
+
+
+            <div class="achievement locked">
+
+                🐎 Gaúcho Supremo
+
+                <span>
+
+                Engoliu um cavalo com gaúcho
+
+                </span>
+
+            </div>
+
+
+
+        </div>
+
+
+
+        <button id="closeAchievements">
+
+            Fechar
+
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- =====================================
+     RANKING
+===================================== -->
+
+
+<div id="rankingScreen">
+
+
+    <div class="rankingBox">
+
+
+        <h1>
+
+            🏅 Ranking
+
+        </h1>
+
+
+
+        <ol id="rankingList">
+
+
+            <li>
+
+                Jogador 1 -
+
+                9999 pontos
+
+            </li>
+
+
+
+            <li>
+
+                Jogador 2 -
+
+                7000 pontos
+
+            </li>
+
+
+
+            <li>
+
+                Jogador 3 -
+
+                5000 pontos
+
+            </li>
+
+
+
+        </ol>
+
+
+
+        <button id="closeRanking">
+
+            Voltar
+
+        </button>
+
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- =====================================
+     NOTIFICAÇÕES
+===================================== -->
+
+
+<div id="notificationContainer">
+
+
+</div>
+
+
+
+
+
+
+<!-- =====================================
+     MENSAGEM DE EVOLUÇÃO
+===================================== -->
+
+
+<div id="evolutionMessage">
+
+
+    <h1 id="evolutionTitle">
+
+
+    </h1>
+
+
+    <p id="evolutionDescription">
+
+
+    </p>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- =====================================
+     INFORMAÇÕES DA FASE
+===================================== -->
+
+
+<div id="levelInfo">
+
+
+    <h2>
+
+        Fase
+
+        <span id="currentLevel">
+
+        1
+
+        </span>
+
+    </h2>
+
+
+
+    <p>
+
+        Próximo objetivo:
+
+    </p>
+
+
+
+    <strong id="nextObjective">
+
+        Engolir água
+
+    </strong>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- =====================================
+     SISTEMA DE SAVE
+===================================== -->
+
+
+<div id="saveMessage">
+
+
+    Progresso salvo!
+
+</div>
+
+
+
+
+
+
+
+<!-- =====================================
+     CRÉDITOS
+===================================== -->
+
+
+<div id="creditsScreen">
+
+
+    <div class="creditsBox">
+
+
+        <h1>
+
+            🧉 Cuia.IO
+
+        </h1>
+
+
+
+        <p>
+
+            Um jogo inspirado na cultura do chimarrão.
+
+        </p>
+
+
+
+        <p>
+
+            Desenvolvido utilizando:
+
+        </p>
+
+
+        <div class="techList">
+
+
+            <span>
+
+            HTML5
+
+            </span>
+
+
+
+            <span>
+
+            CSS3
+
+            </span>
+
+
+
+            <span>
+
+            JavaScript
+
+            </span>
+
+
+
+            <span>
+
+            Canvas
+
+            </span>
+
+
+
+        </div>
+
+
+
+        <button id="closeCredits">
+
+            Voltar
+
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- =====================================
+     TELA DE CARREGAMENTO AVANÇADA
+===================================== -->
+
+
+<div id="gameLoader">
+
+
+    <div class="loaderContent">
+
+
+        <h1>
+
+            🧉 Preparando a cuia...
+
+        </h1>
+
+
+
+        <div class="loadingBar">
+
+
+            <div id="loadingProgress">
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <p id="loadingText">
+
+            Carregando cidade...
+
+        </p>
+
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- =====================================
+     CONTAINER DE EFEITOS
+===================================== -->
+
+
+<div id="effectsLayer">
+
+
+</div>
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,2244 @@
+/* ===========================================
+   CUIA.IO
+   STYLE.CSS
+=========================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    user-select:none;
+    font-family:'Poppins',sans-serif;
+}
+
+html,
+body{
+
+    width:100%;
+    height:100%;
+    overflow:hidden;
+
+    background:#5da86f;
+}
+
+canvas{
+
+    display:block;
+
+}
+
+#gameCanvas{
+
+    position:absolute;
+
+    width:100%;
+    height:100%;
+
+    left:0;
+    top:0;
+
+    background:linear-gradient(
+        #67b56e,
+        #6dbc77
+    );
+
+}
+
+/*============================
+LOADING
+============================*/
+
+#loadingScreen{
+
+    position:absolute;
+
+    width:100%;
+    height:100%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#202020;
+
+    z-index:5000;
+
+}
+
+#loadingBox{
+
+    text-align:center;
+
+    color:white;
+
+}
+
+.loader{
+
+    width:120px;
+
+    height:18px;
+
+    margin:25px auto;
+
+    border-radius:50px;
+
+    overflow:hidden;
+
+    background:#333;
+
+}
+
+.loader::before{
+
+    content:"";
+
+    display:block;
+
+    width:30%;
+
+    height:100%;
+
+    background:#4CAF50;
+
+    animation:loading 1.3s infinite;
+
+}
+
+@keyframes loading{
+
+0%{
+
+margin-left:-40%;
+
+}
+
+100%{
+
+margin-left:110%;
+
+}
+
+}
+
+/*============================
+MENU
+============================*/
+
+#menu{
+
+    position:absolute;
+
+    width:100%;
+    height:100%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:rgba(0,0,0,.45);
+
+    z-index:2000;
+
+}
+
+.menuBox{
+
+    width:420px;
+
+    max-width:90%;
+
+    padding:40px;
+
+    border-radius:20px;
+
+    background:white;
+
+    text-align:center;
+
+    box-shadow:0 25px 60px rgba(0,0,0,.35);
+
+}
+
+.menuBox h1{
+
+    font-size:52px;
+
+    color:#2e7d32;
+
+    margin-bottom:15px;
+
+}
+
+.menuBox p{
+
+    color:#555;
+
+    margin-bottom:30px;
+
+}
+
+button{
+
+    cursor:pointer;
+
+    border:none;
+
+    outline:none;
+
+    transition:.25s;
+
+}
+
+button:hover{
+
+    transform:scale(1.05);
+
+}
+
+button:active{
+
+    transform:scale(.95);
+
+}
+
+#playButton{
+
+    width:220px;
+
+    height:60px;
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    border-radius:50px;
+
+    color:white;
+
+    background:#2e7d32;
+
+}
+
+#playButton:hover{
+
+    background:#43a047;
+
+}
+
+/*============================
+HUD
+============================*/
+
+#hud{
+
+    position:absolute;
+
+    top:15px;
+
+    left:15px;
+
+    right:15px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    pointer-events:none;
+
+    z-index:1000;
+
+}
+
+.topLeft,
+.topCenter,
+.topRight{
+
+    min-width:160px;
+
+    padding:12px;
+
+    border-radius:16px;
+
+    background:rgba(255,255,255,.8);
+
+    backdrop-filter:blur(10px);
+
+    text-align:center;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+
+}
+
+.topLeft h2,
+.topCenter h2,
+.topRight h2{
+
+    font-size:15px;
+
+    color:#555;
+
+}
+
+.topLeft span,
+.topCenter span,
+.topRight span{
+
+    display:block;
+
+    margin-top:6px;
+
+    font-size:28px;
+
+    color:#2e7d32;
+
+    font-weight:bold;
+
+}
+
+/*============================
+MENSAGEM
+============================*/
+
+#message{
+
+    position:absolute;
+
+    top:90px;
+
+    width:100%;
+
+    text-align:center;
+
+    color:white;
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    text-shadow:2px 2px 8px black;
+
+    z-index:900;
+
+}
+/*==========================================
+TELA DE PAUSA
+==========================================*/
+
+#pauseScreen{
+
+    position:absolute;
+    inset:0;
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(0,0,0,.60);
+
+    z-index:4000;
+
+}
+
+.pauseBox{
+
+    width:420px;
+
+    max-width:90%;
+
+    background:white;
+
+    border-radius:25px;
+
+    padding:40px;
+
+    text-align:center;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.45);
+
+}
+
+.pauseBox h1{
+
+    color:#2e7d32;
+
+    font-size:48px;
+
+    margin-bottom:25px;
+
+}
+
+#resumeButton{
+
+    width:240px;
+
+    height:60px;
+
+    font-size:24px;
+
+    color:white;
+
+    background:#43a047;
+
+    border-radius:40px;
+
+}
+
+#resumeButton:hover{
+
+    background:#2e7d32;
+
+}
+
+/*==========================================
+TELA DE VITÓRIA
+==========================================*/
+
+#victoryScreen{
+
+    position:absolute;
+
+    inset:0;
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:rgba(0,0,0,.65);
+
+    z-index:4500;
+
+}
+
+.victoryBox{
+
+    width:520px;
+
+    max-width:92%;
+
+    padding:50px;
+
+    text-align:center;
+
+    background:white;
+
+    border-radius:25px;
+
+    animation:winPop .6s ease;
+
+    box-shadow:0 25px 60px rgba(0,0,0,.4);
+
+}
+
+.victoryBox h1{
+
+    color:#1b5e20;
+
+    font-size:48px;
+
+    margin-bottom:20px;
+
+}
+
+.victoryBox p{
+
+    font-size:20px;
+
+    color:#555;
+
+    margin-bottom:35px;
+
+    line-height:1.5;
+
+}
+
+#nextButton{
+
+    width:260px;
+
+    height:65px;
+
+    font-size:24px;
+
+    border-radius:50px;
+
+    background:#43a047;
+
+    color:white;
+
+}
+
+#nextButton:hover{
+
+    background:#2e7d32;
+
+}
+
+@keyframes winPop{
+
+0%{
+
+transform:scale(.2) rotate(-10deg);
+
+opacity:0;
+
+}
+
+70%{
+
+transform:scale(1.08);
+
+}
+
+100%{
+
+transform:scale(1);
+
+opacity:1;
+
+}
+
+}
+
+/*==========================================
+GAME OVER
+==========================================*/
+
+#gameOver{
+
+    position:absolute;
+
+    inset:0;
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:rgba(0,0,0,.70);
+
+    z-index:4500;
+
+}
+
+.gameOverBox{
+
+    width:450px;
+
+    max-width:90%;
+
+    padding:40px;
+
+    border-radius:25px;
+
+    background:white;
+
+    text-align:center;
+
+    animation:gameOverAnim .5s;
+
+}
+
+.gameOverBox h1{
+
+    font-size:50px;
+
+    color:#c62828;
+
+    margin-bottom:30px;
+
+}
+
+#restartButton{
+
+    width:250px;
+
+    height:60px;
+
+    border-radius:40px;
+
+    background:#c62828;
+
+    color:white;
+
+    font-size:22px;
+
+}
+
+#restartButton:hover{
+
+    background:#b71c1c;
+
+}
+
+@keyframes gameOverAnim{
+
+0%{
+
+transform:translateY(-80px);
+
+opacity:0;
+
+}
+
+100%{
+
+transform:translateY(0);
+
+opacity:1;
+
+}
+
+}
+
+/*==========================================
+MINIMAPA
+==========================================*/
+
+#minimap{
+
+    position:absolute;
+
+    bottom:20px;
+
+    right:20px;
+
+    width:220px;
+
+    height:220px;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    border:5px solid white;
+
+    background:#5fa56b;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.3);
+
+    z-index:900;
+
+}
+
+#miniCanvas{
+
+    width:100%;
+
+    height:100%;
+
+}
+
+/*==========================================
+JOYSTICK
+==========================================*/
+
+#joystick{
+
+    position:absolute;
+
+    left:25px;
+
+    bottom:25px;
+
+    width:150px;
+
+    height:150px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.20);
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    backdrop-filter:blur(10px);
+
+    z-index:1000;
+
+}
+
+#stick{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:50%;
+
+    background:white;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.3);
+
+}
+
+/*==========================================
+BOTÃO MOBILE
+==========================================*/
+
+#mobileButtons{
+
+    position:absolute;
+
+    right:25px;
+
+    bottom:35px;
+
+    display:none;
+
+    z-index:1000;
+
+}
+
+#pauseMobile{
+
+    width:75px;
+
+    height:75px;
+
+    border-radius:50%;
+
+    background:#2e7d32;
+
+    color:white;
+
+    font-size:34px;
+
+    font-weight:bold;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.3);
+
+}
+
+#pauseMobile:hover{
+
+    background:#43a047;
+
+}
+/*==========================================
+ANIMAÇÕES GERAIS
+==========================================*/
+
+.fadeIn{
+    animation:fadeIn .4s ease;
+}
+
+.fadeOut{
+    animation:fadeOut .4s ease forwards;
+}
+
+.zoomIn{
+    animation:zoomIn .35s ease;
+}
+
+.zoomOut{
+    animation:zoomOut .35s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+    }
+    to{
+        opacity:1;
+    }
+}
+
+@keyframes fadeOut{
+    from{
+        opacity:1;
+    }
+    to{
+        opacity:0;
+    }
+}
+
+@keyframes zoomIn{
+    from{
+        transform:scale(.7);
+    }
+    to{
+        transform:scale(1);
+    }
+}
+
+@keyframes zoomOut{
+    from{
+        transform:scale(1);
+    }
+    to{
+        transform:scale(.7);
+    }
+}
+
+/*==========================================
+PARTÍCULAS
+==========================================*/
+
+.particle{
+
+    position:absolute;
+
+    width:8px;
+    height:8px;
+
+    border-radius:50%;
+
+    background:#5f8d2b;
+
+    pointer-events:none;
+
+    animation:particleLife .8s linear forwards;
+
+}
+
+@keyframes particleLife{
+
+    0%{
+
+        opacity:1;
+
+        transform:translate(0,0) scale(1);
+
+    }
+
+    100%{
+
+        opacity:0;
+
+        transform:translate(0,-50px) scale(0);
+
+    }
+
+}
+
+/*==========================================
+POPUP DE ITEM
+==========================================*/
+
+.popup{
+
+    position:absolute;
+
+    color:white;
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    text-shadow:2px 2px 6px black;
+
+    animation:itemPopup 1s forwards;
+
+}
+
+@keyframes itemPopup{
+
+    0%{
+
+        opacity:0;
+
+        transform:translateY(30px);
+
+    }
+
+    20%{
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        opacity:0;
+
+        transform:translateY(-80px);
+
+    }
+
+}
+
+/*==========================================
+BARRA DE EXPERIÊNCIA
+==========================================*/
+
+#xpBar{
+
+    position:absolute;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    top:80px;
+
+    width:340px;
+
+    height:20px;
+
+    background:rgba(255,255,255,.35);
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    z-index:950;
+
+}
+
+#xpFill{
+
+    width:0%;
+
+    height:100%;
+
+    background:linear-gradient(
+        90deg,
+        #66bb6a,
+        #2e7d32
+    );
+
+    transition:width .3s ease;
+
+}
+
+/*==========================================
+INDICADOR DE TAMANHO
+==========================================*/
+
+#sizeIndicator{
+
+    position:absolute;
+
+    bottom:260px;
+
+    left:20px;
+
+    background:rgba(255,255,255,.85);
+
+    padding:10px 18px;
+
+    border-radius:18px;
+
+    color:#2e7d32;
+
+    font-weight:bold;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.2);
+
+}
+
+/*==========================================
+NUVENS DECORATIVAS
+==========================================*/
+
+.cloud{
+
+    position:absolute;
+
+    background:white;
+
+    border-radius:50px;
+
+    opacity:.35;
+
+    animation:cloudMove 40s linear infinite;
+
+}
+
+.cloud::before,
+.cloud::after{
+
+    content:"";
+
+    position:absolute;
+
+    background:white;
+
+    border-radius:50%;
+
+}
+
+.cloud::before{
+
+    width:45px;
+    height:45px;
+
+    left:15px;
+    top:-20px;
+
+}
+
+.cloud::after{
+
+    width:60px;
+    height:60px;
+
+    right:10px;
+    top:-28px;
+
+}
+
+@keyframes cloudMove{
+
+    from{
+
+        transform:translateX(-300px);
+
+    }
+
+    to{
+
+        transform:translateX(calc(100vw + 300px));
+
+    }
+
+}
+
+/*==========================================
+RESPONSIVO
+==========================================*/
+
+@media(max-width:900px){
+
+    #hud{
+
+        flex-direction:column;
+
+        gap:10px;
+
+        align-items:center;
+
+    }
+
+    .topLeft,
+    .topCenter,
+    .topRight{
+
+        width:220px;
+
+    }
+
+    #joystick{
+
+        display:flex;
+
+    }
+
+    #mobileButtons{
+
+        display:block;
+
+    }
+
+    #minimap{
+
+        width:150px;
+
+        height:150px;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .menuBox{
+
+        width:90%;
+
+        padding:25px;
+
+    }
+
+    .menuBox h1{
+
+        font-size:38px;
+
+    }
+
+    .victoryBox h1,
+    .pauseBox h1,
+    .gameOverBox h1{
+
+        font-size:34px;
+
+    }
+
+    #playButton,
+    #nextButton,
+    #restartButton,
+    #resumeButton{
+
+        width:100%;
+
+    }
+
+}
+/*==========================================
+CIDADE - ELEMENTOS VISUAIS
+==========================================*/
+
+.cityObject{
+
+    position:absolute;
+
+    pointer-events:none;
+
+}
+
+
+/* prédios */
+
+.building{
+
+    background:
+    linear-gradient(
+        90deg,
+        #777,
+        #aaa,
+        #777
+    );
+
+    border-radius:5px;
+
+    box-shadow:
+    inset -10px 0 20px rgba(0,0,0,.25),
+    0 15px 25px rgba(0,0,0,.25);
+
+}
+
+
+/* janelas */
+
+.window{
+
+    background:#ffe082;
+
+    box-shadow:
+    0 0 10px #fff59d;
+
+}
+
+
+/* casas */
+
+.house{
+
+    background:#ef6c00;
+
+    border-radius:10px 10px 5px 5px;
+
+    box-shadow:
+    0 10px 20px rgba(0,0,0,.3);
+
+}
+
+
+.houseRoof{
+
+    background:#b71c1c;
+
+    clip-path:polygon(
+        50% 0,
+        100% 100%,
+        0 100%
+    );
+
+}
+
+
+/* árvores */
+
+.tree{
+
+    position:absolute;
+
+}
+
+
+.treeTop{
+
+    width:80px;
+
+    height:80px;
+
+    background:
+    radial-gradient(
+        circle,
+        #4caf50,
+        #1b5e20
+    );
+
+    border-radius:50%;
+
+    box-shadow:
+    inset -15px -15px 20px rgba(0,0,0,.2);
+
+}
+
+
+.treeTrunk{
+
+    width:20px;
+
+    height:50px;
+
+    background:#795548;
+
+    margin:auto;
+
+}
+
+
+
+/*==========================================
+CUIA DO JOGADOR
+==========================================*/
+
+.cuiaGlow{
+
+    animation:cuiaGlow 2s infinite;
+
+}
+
+
+@keyframes cuiaGlow{
+
+    0%{
+
+        filter:
+        drop-shadow(
+        0 0 5px #81c784
+        );
+
+    }
+
+
+    50%{
+
+        filter:
+        drop-shadow(
+        0 0 25px #43a047
+        );
+
+    }
+
+
+    100%{
+
+        filter:
+        drop-shadow(
+        0 0 5px #81c784
+        );
+
+    }
+
+}
+
+
+
+/* crescimento */
+
+.growAnimation{
+
+    animation:grow .3s ease;
+
+}
+
+
+@keyframes grow{
+
+    0%{
+
+        transform:scale(.8);
+
+    }
+
+
+    50%{
+
+        transform:scale(1.25);
+
+    }
+
+
+    100%{
+
+        transform:scale(1);
+
+    }
+
+}
+
+
+
+/*==========================================
+EFEITO AO ENGOLIR OBJETO
+==========================================*/
+
+
+.eating{
+
+    animation:eat .35s ease;
+
+}
+
+
+@keyframes eat{
+
+
+    0%{
+
+        transform:scale(1);
+
+    }
+
+
+    50%{
+
+        transform:scale(1.2);
+
+    }
+
+
+    100%{
+
+        transform:scale(1);
+
+    }
+
+
+}
+
+
+
+/*==========================================
+ÁREA DE JOGO
+==========================================*/
+
+
+.gameWorld{
+
+    position:absolute;
+
+    overflow:hidden;
+
+    width:5000px;
+
+    height:5000px;
+
+    background:
+
+    linear-gradient(
+        90deg,
+        rgba(255,255,255,.05) 1px,
+        transparent 1px
+    ),
+
+    linear-gradient(
+        rgba(255,255,255,.05) 1px,
+        transparent 1px
+    );
+
+    background-size:
+
+    100px 100px;
+
+
+}
+
+
+/*==========================================
+OBJETOS ENGOLÍVEIS
+==========================================*/
+
+
+.foodObject{
+
+    position:absolute;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:25px;
+
+    transition:.2s;
+
+
+}
+
+
+.foodObject:hover{
+
+    transform:scale(1.1);
+
+}
+
+
+
+/* água */
+
+.waterDrop{
+
+    color:#2196f3;
+
+    filter:
+    drop-shadow(
+    0 0 8px #2196f3
+    );
+
+}
+
+
+
+/* erva */
+
+.herb{
+
+    color:#558b2f;
+
+}
+
+
+
+/* bomba */
+
+.bomb{
+
+    color:#444;
+
+}
+
+
+
+/* térmica */
+
+.thermos{
+
+    color:#e53935;
+
+}
+
+
+
+/* chaleira */
+
+.kettle{
+
+    color:#795548;
+
+}
+
+
+
+/* gaúcho */
+
+.gaucho{
+
+    color:#5d4037;
+
+}
+
+
+
+/* cavalo */
+
+.horse{
+
+    color:#3e2723;
+
+}
+
+
+
+/*==========================================
+EFEITO DE FASE
+==========================================*/
+
+
+.levelComplete{
+
+    animation:
+
+    levelFlash 1s infinite;
+
+}
+
+
+
+@keyframes levelFlash{
+
+
+0%{
+
+    opacity:1;
+
+}
+
+
+50%{
+
+    opacity:.4;
+
+}
+
+
+100%{
+
+    opacity:1;
+
+}
+
+}
+
+
+
+/*==========================================
+TELA DE NÍVEL
+==========================================*/
+
+
+#levelBanner{
+
+    position:absolute;
+
+    top:50%;
+
+    left:50%;
+
+    transform:
+    translate(-50%,-50%);
+
+
+    color:white;
+
+    font-size:70px;
+
+    font-weight:900;
+
+    text-shadow:
+
+    0 5px 20px black;
+
+
+    display:none;
+
+    z-index:5000;
+
+}
+
+
+
+/*==========================================
+MODO PAISAGEM CELULAR
+==========================================*/
+
+
+@media(max-height:500px)
+and (orientation:landscape){
+
+
+#hud{
+
+    top:5px;
+
+}
+
+
+#minimap{
+
+    width:120px;
+
+    height:120px;
+
+}
+
+
+#joystick{
+
+    width:120px;
+
+    height:120px;
+
+}
+
+
+}
+/*==========================================
+CUIA.IO - STYLE.CSS
+PARTE 5 - FINAL
+==========================================*/
+
+
+/*==========================================
+BARRA DE PROGRESSO DO NÍVEL
+==========================================*/
+
+
+#levelProgress{
+
+    position:absolute;
+
+    bottom:25px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:450px;
+
+    max-width:70%;
+
+    height:25px;
+
+    background:
+
+    rgba(255,255,255,.35);
+
+    border-radius:50px;
+
+    overflow:hidden;
+
+    backdrop-filter:blur(10px);
+
+    box-shadow:
+
+    0 5px 20px rgba(0,0,0,.25);
+
+    z-index:1000;
+
+}
+
+
+#levelProgressFill{
+
+    height:100%;
+
+    width:0%;
+
+    background:
+
+    linear-gradient(
+
+        90deg,
+
+        #8bc34a,
+
+        #2e7d32
+
+    );
+
+
+    border-radius:50px;
+
+
+    transition:
+
+    width .5s ease;
+
+}
+
+
+
+
+/*==========================================
+NOTIFICAÇÕES
+==========================================*/
+
+
+.notification{
+
+
+    position:absolute;
+
+    top:120px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+
+    padding:
+
+    15px 30px;
+
+
+    background:
+
+    rgba(0,0,0,.65);
+
+
+    color:white;
+
+
+    border-radius:50px;
+
+
+    font-size:22px;
+
+
+    font-weight:bold;
+
+
+    backdrop-filter:blur(10px);
+
+
+    animation:
+
+    notificationAnim 3s forwards;
+
+
+    z-index:3000;
+
+
+}
+
+
+
+@keyframes notificationAnim{
+
+
+0%{
+
+    opacity:0;
+
+    transform:
+
+    translate(-50%,-30px);
+
+}
+
+
+15%{
+
+    opacity:1;
+
+}
+
+
+80%{
+
+    opacity:1;
+
+}
+
+
+100%{
+
+    opacity:0;
+
+    transform:
+
+    translate(-50%,-100px);
+
+}
+
+
+}
+
+
+
+
+
+/*==========================================
+EFEITO DE IMPACTO
+==========================================*/
+
+
+.hitEffect{
+
+
+    position:absolute;
+
+
+    width:80px;
+
+    height:80px;
+
+
+    border-radius:50%;
+
+
+    border:
+
+    5px solid white;
+
+
+    animation:
+
+    impact .5s forwards;
+
+
+    pointer-events:none;
+
+
+}
+
+
+
+
+@keyframes impact{
+
+
+0%{
+
+    transform:scale(.2);
+
+    opacity:1;
+
+}
+
+
+100%{
+
+    transform:scale(2);
+
+    opacity:0;
+
+}
+
+
+}
+
+
+
+
+/*==========================================
+PARTÍCULAS DE ERVA
+==========================================*/
+
+
+.mateParticle{
+
+
+    position:absolute;
+
+
+    width:12px;
+
+    height:12px;
+
+
+    background:#558b2f;
+
+
+    border-radius:50%;
+
+
+    animation:
+
+    mateFly 1s linear forwards;
+
+
+}
+
+
+
+@keyframes mateFly{
+
+
+0%{
+
+
+    opacity:1;
+
+    transform:
+
+    translateY(0)
+
+    rotate(0deg);
+
+
+}
+
+
+
+100%{
+
+
+    opacity:0;
+
+
+    transform:
+
+
+    translateY(-120px)
+
+    rotate(360deg);
+
+
+}
+
+
+
+}
+
+
+
+
+
+/*==========================================
+CONFETE DE VITÓRIA
+==========================================*/
+
+
+.confetti{
+
+
+    position:absolute;
+
+
+    width:10px;
+
+    height:20px;
+
+
+    animation:
+
+    confettiFall 3s linear forwards;
+
+
+}
+
+
+
+@keyframes confettiFall{
+
+
+0%{
+
+    transform:
+
+    translateY(-100px)
+
+    rotate(0deg);
+
+}
+
+
+
+100%{
+
+    transform:
+
+    translateY(100vh)
+
+    rotate(720deg);
+
+
+}
+
+
+}
+
+
+
+
+
+/*==========================================
+EFEITO DE ZOOM DA CÂMERA
+==========================================*/
+
+
+.cameraZoomIn{
+
+
+    animation:
+
+    cameraIn .5s;
+
+
+}
+
+
+
+.cameraZoomOut{
+
+
+    animation:
+
+    cameraOut .5s;
+
+
+}
+
+
+
+@keyframes cameraIn{
+
+
+from{
+
+    transform:scale(.8);
+
+}
+
+
+to{
+
+    transform:scale(1);
+
+}
+
+
+}
+
+
+
+@keyframes cameraOut{
+
+
+from{
+
+    transform:scale(1);
+
+}
+
+
+to{
+
+    transform:scale(.8);
+
+}
+
+
+}
+
+
+
+
+
+/*==========================================
+SOMBRA DOS ELEMENTOS
+==========================================*/
+
+
+.shadow{
+
+
+filter:
+
+drop-shadow(
+
+0 10px 8px
+
+rgba(0,0,0,.35)
+
+);
+
+
+}
+
+
+
+
+/*==========================================
+MODO ESCURO NOTURNO
+==========================================*/
+
+
+.nightMode{
+
+
+filter:
+
+brightness(.65)
+
+contrast(1.1);
+
+
+}
+
+
+
+.nightMode .window{
+
+
+background:#fff176;
+
+box-shadow:
+
+0 0 15px #fff59d;
+
+
+}
+
+
+
+
+
+/*==========================================
+EFEITO DE CHUVA
+==========================================*/
+
+
+.rainDrop{
+
+
+position:absolute;
+
+
+width:2px;
+
+
+height:20px;
+
+
+background:
+
+rgba(255,255,255,.6);
+
+
+animation:
+
+rainFall .7s linear infinite;
+
+
+}
+
+
+
+@keyframes rainFall{
+
+
+from{
+
+transform:
+
+translateY(-50px);
+
+
+}
+
+
+to{
+
+
+transform:
+
+translateY(100vh);
+
+
+}
+
+
+
+}
+
+
+
+
+
+/*==========================================
+FINALIZAÇÃO
+==========================================*/
+
+
+.hidden{
+
+
+display:none !important;
+
+
+}
+
+
+.visible{
+
+
+display:block !important;
+
+
+}
+
+
+
+
+/*==========================================
+SUPORTE PARA TELAS GRANDES
+==========================================*/
+
+
+@media(min-width:1600px){
+
+
+.menuBox h1{
+
+
+font-size:70px;
+
+
+}
+
+
+
+#hud span{
+
+
+font-size:35px;
+
+
+}
+
+
+
+}
+
+
+
+
+/*==========================================
+SUPORTE PARA CELULAR PEQUENO
+==========================================*/
+
+
+@media(max-width:450px){
+
+
+
+#hud{
+
+
+transform:scale(.85);
+
+
+}
+
+
+
+#message{
+
+
+font-size:20px;
+
+
+}
+
+
+
+#levelProgress{
+
+
+width:250px;
+
+
+}
+
+
+
+}
