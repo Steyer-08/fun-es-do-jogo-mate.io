@@ -24,6 +24,332 @@
 </head>
 
 <body>
+    <!-- =====================================
+     CANVAS PRINCIPAL DO JOGO
+===================================== -->
+
+<canvas id="gameCanvas"></canvas>
+
+
+
+
+<!-- =====================================
+     MENU PRINCIPAL
+===================================== -->
+
+<div id="menu">
+
+
+    <div class="menuBox">
+
+
+        <h1>
+            🧉 CUIA.IO
+        </h1>
+
+
+        <p>
+            O maior chimarrão do Rio Grande!
+        </p>
+
+
+
+        <button id="playButton">
+
+            Jogar
+
+        </button>
+
+
+
+        <button id="selectLevelButton">
+
+            Selecionar Fase
+
+        </button>
+
+
+
+        <button id="settingsButton">
+
+            Configurações
+
+        </button>
+
+
+
+        <button id="rankingButton">
+
+            Ranking
+
+        </button>
+
+
+
+        <button id="creditsButton">
+
+            Créditos
+
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+<!-- =====================================
+     HUD DO JOGO
+===================================== -->
+
+
+<div id="hud">
+
+
+    <div class="topLeft">
+
+
+        🧉 Tamanho:
+
+        <span id="sizeText">
+
+        25
+
+        </span>
+
+
+    </div>
+
+
+
+
+    <div class="topCenter">
+
+
+        ⭐ XP:
+
+        <span id="xpText">
+
+        0
+
+        </span>
+
+
+    </div>
+
+
+
+
+    <div class="topRight">
+
+
+        🏆 Nível:
+
+        <span id="levelText">
+
+        1
+
+        </span>
+
+
+    </div>
+
+
+
+
+    <div class="scoreBox">
+
+
+        Pontos:
+
+        <span id="scoreText">
+
+        0
+
+        </span>
+
+
+    </div>
+
+
+
+
+    <div class="timerBox">
+
+
+        ⏱️
+
+        <span id="timer">
+
+        180
+
+        </span>
+
+
+    </div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- =====================================
+     MENSAGEM DE AÇÃO
+===================================== -->
+
+
+<div id="message">
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- =====================================
+     TELA DE PAUSA
+===================================== -->
+
+
+<div id="pauseScreen">
+
+
+    <div class="pauseBox">
+
+
+        <h1>
+
+            Jogo Pausado
+
+        </h1>
+
+
+
+        <button id="resumeButton">
+
+            Continuar
+
+        </button>
+
+
+
+        <button id="restartButton">
+
+            Reiniciar
+
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- =====================================
+     TELA DE VITÓRIA
+===================================== -->
+
+
+<div id="victoryScreen">
+
+
+    <div class="victoryBox">
+
+
+        <h1>
+
+            🧉 Vitória!
+
+        </h1>
+
+
+
+        <p>
+
+            Você transformou o prédio
+            gigante em uma bomba de chimarrão!
+
+        </p>
+
+
+
+        <button id="nextButton">
+
+            Próxima fase
+
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- =====================================
+     JOYSTICK MOBILE
+===================================== -->
+
+
+<div id="joystick">
+
+
+    <div id="stick">
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- =====================================
+     BOTÕES MOBILE
+===================================== -->
+
+
+<div id="mobileButtons">
+
+
+    <button id="mobilePause">
+
+        II
+
+    </button>
+
+
+</div>
 
 <div id="loadingScreen">
 
