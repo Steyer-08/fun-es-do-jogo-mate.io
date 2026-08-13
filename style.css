@@ -1,2244 +1,2974 @@
-/* ===========================================
-   CUIA.IO
-   STYLE.CSS
-=========================================== */
+:root {
+    --green-900: #1b5e20;
+    --green-800: #2e7d32;
+    --green-700: #388e3c;
+    --green-600: #43a047;
+    --green-500: #4caf50;
+    --green-300: #81c784;
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    user-select:none;
-    font-family:'Poppins',sans-serif;
+    --red-700: #c62828;
+    --red-800: #b71c1c;
+
+    --white: #ffffff;
+    --black: #000000;
+
+    --shadow-small: 0 5px 15px rgba(0, 0, 0, .20);
+    --shadow-medium: 0 10px 25px rgba(0, 0, 0, .25);
+    --shadow-large: 0 25px 60px rgba(0, 0, 0, .35);
+
+    --glass: rgba(255, 255, 255, .80);
+
+    --ui-radius: 20px;
 }
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 
 html,
-body{
+body {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
 
-    width:100%;
-    height:100%;
-    overflow:hidden;
+    overflow: hidden;
 
-    background:#5da86f;
+    background: #5da86f;
+
+    font-family: "Poppins", sans-serif;
+
+    user-select: none;
+    -webkit-user-select: none;
+
+    -webkit-tap-highlight-color: transparent;
+
+    touch-action: none;
 }
 
-canvas{
 
-    display:block;
-
+body {
+    position: relative;
 }
 
-#gameCanvas{
 
-    position:absolute;
+/* =========================================================
+   ELEMENTOS BÁSICOS
+========================================================= */
 
-    width:100%;
-    height:100%;
-
-    left:0;
-    top:0;
-
-    background:linear-gradient(
-        #67b56e,
-        #6dbc77
-    );
-
+button,
+input,
+select {
+    font: inherit;
 }
 
-/*============================
-LOADING
-============================*/
 
-#loadingScreen{
+button {
+    border: 0;
+    outline: 0;
 
-    position:absolute;
+    cursor: pointer;
 
-    width:100%;
-    height:100%;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    background:#202020;
-
-    z-index:5000;
-
+    -webkit-tap-highlight-color: transparent;
 }
 
-#loadingBox{
 
-    text-align:center;
-
-    color:white;
-
+button:focus-visible {
+    outline: 3px solid rgba(129, 199, 132, .8);
+    outline-offset: 3px;
 }
 
-.loader{
 
-    width:120px;
+canvas {
+    display: block;
 
-    height:18px;
-
-    margin:25px auto;
-
-    border-radius:50px;
-
-    overflow:hidden;
-
-    background:#333;
-
+    max-width: 100%;
 }
 
-.loader::before{
 
-    content:"";
-
-    display:block;
-
-    width:30%;
-
-    height:100%;
-
-    background:#4CAF50;
-
-    animation:loading 1.3s infinite;
-
+.hidden {
+    display: none !important;
 }
 
-@keyframes loading{
 
-0%{
-
-margin-left:-40%;
-
+.visible {
+    display: block !important;
 }
 
-100%{
 
-margin-left:110%;
+/* =========================================================
+   CANVAS PRINCIPAL
+========================================================= */
 
+#gameCanvas {
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            #67b56e,
+            #6dbc77
+        );
+
+    z-index: 0;
+
+    /*
+     * Impede o navegador de interpretar o canvas
+     * como área de gesto/scroll.
+     */
+    touch-action: none;
 }
 
+
+/* =========================================================
+   TELAS / OVERLAYS
+========================================================= */
+
+.screen,
+.overlay {
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
 }
 
-/*============================
-MENU
-============================*/
 
-#menu{
+/*
+ * Telas do jogo começam escondidas.
+ * O JavaScript pode adicionar .active.
+ */
 
-    position:absolute;
-
-    width:100%;
-    height:100%;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    background:rgba(0,0,0,.45);
-
-    z-index:2000;
-
+.screen:not(.active) {
+    display: none;
 }
 
-.menuBox{
 
-    width:420px;
+.overlay {
+    display: none;
 
-    max-width:90%;
+    background: rgba(0, 0, 0, .65);
 
-    padding:40px;
-
-    border-radius:20px;
-
-    background:white;
-
-    text-align:center;
-
-    box-shadow:0 25px 60px rgba(0,0,0,.35);
-
+    z-index: 4000;
 }
 
-.menuBox h1{
 
-    font-size:52px;
-
-    color:#2e7d32;
-
-    margin-bottom:15px;
-
+.overlay.active {
+    display: flex;
 }
 
-.menuBox p{
 
-    color:#555;
+/* =========================================================
+   LOADING
+========================================================= */
 
-    margin-bottom:30px;
+#loadingScreen {
+    background: #202020;
 
+    z-index: 5000;
+
+    color: var(--white);
 }
 
-button{
 
-    cursor:pointer;
+.loadingBox {
+    width: min(420px, 90vw);
 
-    border:none;
+    padding: 30px;
 
-    outline:none;
-
-    transition:.25s;
-
+    text-align: center;
 }
 
-button:hover{
 
-    transform:scale(1.05);
+.loadingBox h1 {
+    margin-bottom: 20px;
 
+    color: var(--white);
+
+    font-size: clamp(32px, 8vw, 52px);
+
+    font-weight: 900;
 }
 
-button:active{
 
-    transform:scale(.95);
+.loadingBox p {
+    color: rgba(255, 255, 255, .8);
 
+    font-size: 15px;
 }
 
-#playButton{
 
-    width:220px;
+.loader {
+    position: relative;
 
-    height:60px;
+    width: min(180px, 70vw);
+    height: 14px;
 
-    font-size:24px;
+    margin: 25px auto;
 
-    font-weight:bold;
+    overflow: hidden;
 
-    border-radius:50px;
+    border-radius: 50px;
 
-    color:white;
-
-    background:#2e7d32;
-
+    background: #333;
 }
 
-#playButton:hover{
 
-    background:#43a047;
+.loader::before {
+    content: "";
 
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 30%;
+    height: 100%;
+
+    border-radius: inherit;
+
+    background: var(--green-500);
+
+    animation: loading 1.3s linear infinite;
 }
 
-/*============================
-HUD
-============================*/
 
-#hud{
+@keyframes loading {
+    0% {
+        transform: translateX(-150%);
+    }
 
-    position:absolute;
-
-    top:15px;
-
-    left:15px;
-
-    right:15px;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    pointer-events:none;
-
-    z-index:1000;
-
+    100% {
+        transform: translateX(450%);
+    }
 }
 
+
+/* =========================================================
+   LOADER AVANÇADO
+========================================================= */
+
+#gameLoader {
+    background: rgba(0, 0, 0, .85);
+
+    z-index: 4900;
+}
+
+
+.loaderContent {
+    width: min(500px, 90vw);
+
+    padding: 30px;
+
+    text-align: center;
+
+    color: var(--white);
+}
+
+
+.loaderContent h1 {
+    margin-bottom: 25px;
+
+    font-size: clamp(25px, 6vw, 42px);
+}
+
+
+.loadingBar {
+    width: 100%;
+    height: 18px;
+
+    overflow: hidden;
+
+    border-radius: 50px;
+
+    background: rgba(255, 255, 255, .20);
+}
+
+
+#loadingProgress {
+    width: 0;
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--green-300),
+            var(--green-800)
+        );
+
+    transition: width .25s ease;
+}
+
+
+#loadingText {
+    margin-top: 15px;
+
+    color: rgba(255, 255, 255, .8);
+}
+
+
+/* =========================================================
+   MENU PRINCIPAL
+========================================================= */
+
+#menu {
+    background: rgba(0, 0, 0, .45);
+
+    z-index: 2000;
+}
+
+
+.menuBox {
+    width: min(420px, 90vw);
+
+    padding: clamp(25px, 5vw, 40px);
+
+    border-radius: var(--ui-radius);
+
+    background: var(--white);
+
+    text-align: center;
+
+    box-shadow: var(--shadow-large);
+}
+
+
+.menuBox h1 {
+    margin-bottom: 12px;
+
+    color: var(--green-800);
+
+    font-size: clamp(38px, 8vw, 52px);
+
+    line-height: 1;
+
+    font-weight: 900;
+}
+
+
+.menuBox p {
+    margin-bottom: 30px;
+
+    color: #555;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   BOTÕES
+========================================================= */
+
+button {
+    transition:
+        transform .18s ease,
+        background-color .18s ease,
+        box-shadow .18s ease,
+        opacity .18s ease;
+}
+
+
+@media (hover: hover) {
+    button:hover {
+        transform: translateY(-2px);
+    }
+}
+
+
+button:active {
+    transform: scale(.96);
+}
+
+
+.menuButtons {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    align-items: center;
+}
+
+
+.menuButtons button {
+    width: 100%;
+    max-width: 300px;
+
+    min-height: 50px;
+
+    padding: 10px 20px;
+
+    border-radius: 50px;
+
+    background: #eeeeee;
+
+    color: #333;
+
+    font-size: 17px;
+
+    font-weight: 600;
+}
+
+
+.menuButtons button:first-child {
+    min-height: 60px;
+
+    background: var(--green-800);
+
+    color: var(--white);
+
+    font-size: 24px;
+
+    font-weight: 700;
+}
+
+
+@media (hover: hover) {
+    .menuButtons button:hover {
+        background: #e0e0e0;
+    }
+
+    .menuButtons button:first-child:hover {
+        background: var(--green-600);
+    }
+}
+
+
+/* =========================================================
+   HUD PRINCIPAL
+========================================================= */
+
+#hud {
+    position: fixed;
+
+    top: max(12px, env(safe-area-inset-top));
+    left: 12px;
+    right: 12px;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 10px;
+
+    pointer-events: none;
+
+    z-index: 1000;
+}
+
+
+.hudBox,
 .topLeft,
 .topCenter,
-.topRight{
+.topRight {
+    min-width: 130px;
 
-    min-width:160px;
+    padding: 10px 14px;
 
-    padding:12px;
+    border-radius: 16px;
 
-    border-radius:16px;
+    background: var(--glass);
 
-    background:rgba(255,255,255,.8);
+    text-align: center;
 
-    backdrop-filter:blur(10px);
+    box-shadow: var(--shadow-small);
 
-    text-align:center;
-
-    box-shadow:0 8px 20px rgba(0,0,0,.15);
-
+    /*
+     * Blur é caro em aparelhos fracos.
+     * Ativado somente quando suportado.
+     */
 }
 
+
+@supports (backdrop-filter: blur(8px)) {
+    .hudBox,
+    .topLeft,
+    .topCenter,
+    .topRight {
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+}
+
+
+.hudLabel,
 .topLeft h2,
 .topCenter h2,
-.topRight h2{
+.topRight h2 {
+    display: block;
 
-    font-size:15px;
+    color: #555;
 
-    color:#555;
-
+    font-size: 13px;
+    font-weight: 500;
 }
 
+
+.hudBox strong,
 .topLeft span,
 .topCenter span,
-.topRight span{
+.topRight span {
+    display: block;
 
-    display:block;
+    margin-top: 3px;
 
-    margin-top:6px;
+    color: var(--green-800);
 
-    font-size:28px;
+    font-size: 25px;
 
-    color:#2e7d32;
-
-    font-weight:bold;
-
+    font-weight: 700;
 }
 
-/*============================
-MENSAGEM
-============================*/
 
-#message{
+.scoreBox,
+.timerBox {
+    position: fixed;
 
-    position:absolute;
+    top: 95px;
 
-    top:90px;
+    padding: 8px 15px;
 
-    width:100%;
+    border-radius: 14px;
 
-    text-align:center;
+    background: rgba(0, 0, 0, .55);
 
-    color:white;
+    color: var(--white);
 
-    font-size:28px;
+    font-size: 14px;
 
-    font-weight:bold;
-
-    text-shadow:2px 2px 8px black;
-
-    z-index:900;
-
-}
-/*==========================================
-TELA DE PAUSA
-==========================================*/
-
-#pauseScreen{
-
-    position:absolute;
-    inset:0;
-
-    display:none;
-
-    justify-content:center;
-    align-items:center;
-
-    background:rgba(0,0,0,.60);
-
-    z-index:4000;
-
+    box-shadow: var(--shadow-small);
 }
 
-.pauseBox{
 
-    width:420px;
-
-    max-width:90%;
-
-    background:white;
-
-    border-radius:25px;
-
-    padding:40px;
-
-    text-align:center;
-
-    box-shadow:0 20px 50px rgba(0,0,0,.45);
-
+.scoreBox {
+    left: 15px;
 }
 
-.pauseBox h1{
 
-    color:#2e7d32;
-
-    font-size:48px;
-
-    margin-bottom:25px;
-
+.timerBox {
+    right: 15px;
 }
 
-#resumeButton{
 
-    width:240px;
+.scoreBox strong,
+.timerBox strong {
+    display: inline;
 
-    height:60px;
+    margin-left: 4px;
 
-    font-size:24px;
+    color: var(--white);
 
-    color:white;
-
-    background:#43a047;
-
-    border-radius:40px;
-
+    font-size: 18px;
 }
 
-#resumeButton:hover{
 
-    background:#2e7d32;
+/* =========================================================
+   HUD AVANÇADO
+========================================================= */
 
+#advancedHUD {
+    position: fixed;
+
+    top: 125px;
+    left: 50%;
+
+    width: min(400px, 80vw);
+
+    transform: translateX(-50%);
+
+    z-index: 950;
+
+    pointer-events: none;
 }
 
-/*==========================================
-TELA DE VITÓRIA
-==========================================*/
 
-#victoryScreen{
+#objectiveBox {
+    padding: 8px 14px;
 
-    position:absolute;
+    border-radius: 14px;
 
-    inset:0;
+    background: rgba(0, 0, 0, .45);
 
-    display:none;
+    color: var(--white);
 
-    justify-content:center;
-
-    align-items:center;
-
-    background:rgba(0,0,0,.65);
-
-    z-index:4500;
-
+    text-align: center;
 }
 
-.victoryBox{
 
-    width:520px;
-
-    max-width:92%;
-
-    padding:50px;
-
-    text-align:center;
-
-    background:white;
-
-    border-radius:25px;
-
-    animation:winPop .6s ease;
-
-    box-shadow:0 25px 60px rgba(0,0,0,.4);
-
+#objectiveBox h3 {
+    font-size: 13px;
+    font-weight: 700;
 }
 
-.victoryBox h1{
 
-    color:#1b5e20;
+#objectiveText {
+    margin-top: 2px;
 
-    font-size:48px;
-
-    margin-bottom:20px;
-
+    font-size: 12px;
 }
 
-.victoryBox p{
 
-    font-size:20px;
+#xpBar {
+    width: 100%;
+    height: 14px;
 
-    color:#555;
+    margin-top: 7px;
 
-    margin-bottom:35px;
+    overflow: hidden;
 
-    line-height:1.5;
+    border-radius: 50px;
 
+    background: rgba(255, 255, 255, .35);
 }
 
-#nextButton{
 
-    width:260px;
+#xpFill {
+    width: 0;
+    height: 100%;
 
-    height:65px;
+    border-radius: inherit;
 
-    font-size:24px;
+    background:
+        linear-gradient(
+            90deg,
+            #66bb6a,
+            #2e7d32
+        );
 
-    border-radius:50px;
-
-    background:#43a047;
-
-    color:white;
-
+    transition: width .25s ease;
 }
 
-#nextButton:hover{
 
-    background:#2e7d32;
+#itemsCounter {
+    margin-top: 5px;
 
+    color: var(--white);
+
+    text-align: center;
+
+    font-size: 11px;
 }
 
-@keyframes winPop{
 
-0%{
+/* =========================================================
+   PROGRESSO DA FASE
+========================================================= */
 
-transform:scale(.2) rotate(-10deg);
+#levelProgress {
+    position: fixed;
 
-opacity:0;
+    bottom: max(20px, env(safe-area-inset-bottom));
+    left: 50%;
 
+    width: min(450px, 65vw);
+    height: 20px;
+
+    transform: translateX(-50%);
+
+    overflow: hidden;
+
+    border-radius: 50px;
+
+    background: rgba(255, 255, 255, .30);
+
+    box-shadow: var(--shadow-small);
+
+    z-index: 1000;
+
+    pointer-events: none;
 }
 
-70%{
 
-transform:scale(1.08);
+#levelProgressFill {
+    width: 0;
+    height: 100%;
 
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            #8bc34a,
+            #2e7d32
+        );
+
+    transition: width .35s ease;
 }
 
-100%{
 
-transform:scale(1);
+/* =========================================================
+   LEVEL INFO
+========================================================= */
 
-opacity:1;
+#levelInfo {
+    position: fixed;
 
+    top: 170px;
+    left: 15px;
+
+    max-width: 220px;
+
+    padding: 10px 14px;
+
+    border-radius: 14px;
+
+    background: rgba(0, 0, 0, .45);
+
+    color: var(--white);
+
+    z-index: 900;
+
+    pointer-events: none;
 }
 
+
+#levelInfo h2 {
+    font-size: 15px;
 }
 
-/*==========================================
-GAME OVER
-==========================================*/
 
-#gameOver{
+#levelInfo p {
+    margin-top: 3px;
 
-    position:absolute;
+    font-size: 11px;
 
-    inset:0;
-
-    display:none;
-
-    justify-content:center;
-
-    align-items:center;
-
-    background:rgba(0,0,0,.70);
-
-    z-index:4500;
-
+    opacity: .8;
 }
 
-.gameOverBox{
 
-    width:450px;
+#levelInfo strong {
+    font-size: 12px;
 
-    max-width:90%;
-
-    padding:40px;
-
-    border-radius:25px;
-
-    background:white;
-
-    text-align:center;
-
-    animation:gameOverAnim .5s;
-
+    color: var(--green-300);
 }
 
-.gameOverBox h1{
 
-    font-size:50px;
+/* =========================================================
+   MENSAGEM CENTRAL
+========================================================= */
 
-    color:#c62828;
+#message {
+    position: fixed;
 
-    margin-bottom:30px;
+    top: 50%;
 
+    left: 50%;
+
+    width: 90%;
+
+    transform: translate(-50%, -50%);
+
+    color: var(--white);
+
+    text-align: center;
+
+    font-size: clamp(20px, 4vw, 28px);
+
+    font-weight: 700;
+
+    text-shadow:
+        2px 2px 8px #000;
+
+    z-index: 1200;
+
+    pointer-events: none;
 }
 
-#restartButton{
 
-    width:250px;
+/* =========================================================
+   CONTROLES
+========================================================= */
 
-    height:60px;
+#gameControls {
+    position: fixed;
 
-    border-radius:40px;
+    top: 15px;
+    right: 15px;
 
-    background:#c62828;
+    display: flex;
 
-    color:white;
+    gap: 8px;
 
-    font-size:22px;
-
+    z-index: 1500;
 }
 
-#restartButton:hover{
 
-    background:#b71c1c;
+#gameControls button {
+    width: 42px;
+    height: 42px;
 
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, .50);
+
+    color: var(--white);
+
+    font-size: 19px;
 }
 
-@keyframes gameOverAnim{
 
-0%{
-
-transform:translateY(-80px);
-
-opacity:0;
-
-}
-
-100%{
-
-transform:translateY(0);
-
-opacity:1;
-
-}
-
-}
-
-/*==========================================
-MINIMAPA
-==========================================*/
-
-#minimap{
-
-    position:absolute;
-
-    bottom:20px;
-
-    right:20px;
-
-    width:220px;
-
-    height:220px;
-
-    border-radius:20px;
-
-    overflow:hidden;
-
-    border:5px solid white;
-
-    background:#5fa56b;
-
-    box-shadow:0 10px 25px rgba(0,0,0,.3);
-
-    z-index:900;
-
-}
-
-#miniCanvas{
-
-    width:100%;
-
-    height:100%;
-
-}
-
-/*==========================================
-JOYSTICK
-==========================================*/
-
-#joystick{
-
-    position:absolute;
-
-    left:25px;
-
-    bottom:25px;
-
-    width:150px;
-
-    height:150px;
-
-    border-radius:50%;
-
-    background:rgba(255,255,255,.20);
-
-    display:none;
-
-    justify-content:center;
-
-    align-items:center;
-
-    backdrop-filter:blur(10px);
-
-    z-index:1000;
-
-}
-
-#stick{
-
-    width:70px;
-
-    height:70px;
-
-    border-radius:50%;
-
-    background:white;
-
-    box-shadow:0 5px 15px rgba(0,0,0,.3);
-
-}
-
-/*==========================================
-BOTÃO MOBILE
-==========================================*/
-
-#mobileButtons{
-
-    position:absolute;
-
-    right:25px;
-
-    bottom:35px;
-
-    display:none;
-
-    z-index:1000;
-
-}
-
-#pauseMobile{
-
-    width:75px;
-
-    height:75px;
-
-    border-radius:50%;
-
-    background:#2e7d32;
-
-    color:white;
-
-    font-size:34px;
-
-    font-weight:bold;
-
-    box-shadow:0 8px 20px rgba(0,0,0,.3);
-
-}
-
-#pauseMobile:hover{
-
-    background:#43a047;
-
-}
-/*==========================================
-ANIMAÇÕES GERAIS
-==========================================*/
-
-.fadeIn{
-    animation:fadeIn .4s ease;
-}
-
-.fadeOut{
-    animation:fadeOut .4s ease forwards;
-}
-
-.zoomIn{
-    animation:zoomIn .35s ease;
-}
-
-.zoomOut{
-    animation:zoomOut .35s ease;
-}
-
-@keyframes fadeIn{
-    from{
-        opacity:0;
-    }
-    to{
-        opacity:1;
+@media (hover: hover) {
+    #gameControls button:hover {
+        background: rgba(46, 125, 50, .9);
     }
 }
 
-@keyframes fadeOut{
-    from{
-        opacity:1;
-    }
-    to{
-        opacity:0;
+
+/* =========================================================
+   PAUSA
+========================================================= */
+
+#pauseScreen {
+    background: rgba(0, 0, 0, .60);
+
+    z-index: 4000;
+}
+
+
+.pauseBox,
+.victoryBox,
+.gameOverBox,
+.settingsBox,
+.levelBox,
+.achievementBox,
+.rankingBox,
+.finalBox,
+.creditsBox {
+    width: min(520px, 92vw);
+
+    padding: clamp(25px, 5vw, 45px);
+
+    border-radius: 25px;
+
+    background: var(--white);
+
+    text-align: center;
+
+    box-shadow: var(--shadow-large);
+}
+
+
+.pauseBox h1 {
+    margin-bottom: 25px;
+
+    color: var(--green-800);
+
+    font-size: clamp(32px, 8vw, 48px);
+}
+
+
+.pauseBox button,
+.victoryBox button,
+.gameOverBox button,
+.settingsBox button,
+.levelBox > button,
+.achievementBox > button,
+.rankingBox > button,
+.finalBox button,
+.creditsBox button {
+    width: min(280px, 100%);
+
+    min-height: 55px;
+
+    margin-top: 12px;
+
+    padding: 10px 20px;
+
+    border-radius: 50px;
+
+    background: var(--green-600);
+
+    color: var(--white);
+
+    font-size: 18px;
+
+    font-weight: 600;
+}
+
+
+@media (hover: hover) {
+    .pauseBox button:hover,
+    .victoryBox button:hover,
+    .settingsBox button:hover,
+    .levelBox > button:hover,
+    .achievementBox > button:hover,
+    .rankingBox > button:hover,
+    .finalBox button:hover,
+    .creditsBox button:hover {
+        background: var(--green-800);
     }
 }
 
-@keyframes zoomIn{
-    from{
-        transform:scale(.7);
-    }
-    to{
-        transform:scale(1);
-    }
+
+/* =========================================================
+   VITÓRIA
+========================================================= */
+
+#victoryScreen {
+    background: rgba(0, 0, 0, .65);
+
+    z-index: 4500;
 }
 
-@keyframes zoomOut{
-    from{
-        transform:scale(1);
-    }
-    to{
-        transform:scale(.7);
-    }
+
+.victoryBox {
+    animation: winPop .45s ease;
 }
 
-/*==========================================
-PARTÍCULAS
-==========================================*/
 
-.particle{
+.victoryBox h1 {
+    margin-bottom: 20px;
 
-    position:absolute;
+    color: var(--green-900);
 
-    width:8px;
-    height:8px;
-
-    border-radius:50%;
-
-    background:#5f8d2b;
-
-    pointer-events:none;
-
-    animation:particleLife .8s linear forwards;
-
+    font-size: clamp(32px, 8vw, 48px);
 }
 
-@keyframes particleLife{
 
-    0%{
+.victoryBox p {
+    margin-bottom: 25px;
 
-        opacity:1;
+    color: #555;
 
-        transform:translate(0,0) scale(1);
+    font-size: 17px;
 
+    line-height: 1.5;
+}
+
+
+@keyframes winPop {
+    0% {
+        transform: scale(.75);
+
+        opacity: 0;
     }
 
-    100%{
-
-        opacity:0;
-
-        transform:translate(0,-50px) scale(0);
-
+    70% {
+        transform: scale(1.04);
     }
 
+    100% {
+        transform: scale(1);
+
+        opacity: 1;
+    }
 }
 
-/*==========================================
-POPUP DE ITEM
-==========================================*/
 
-.popup{
+/* =========================================================
+   GAME OVER
+========================================================= */
 
-    position:absolute;
+#gameOver {
+    background: rgba(0, 0, 0, .70);
 
-    color:white;
-
-    font-size:24px;
-
-    font-weight:bold;
-
-    text-shadow:2px 2px 6px black;
-
-    animation:itemPopup 1s forwards;
-
+    z-index: 4500;
 }
 
-@keyframes itemPopup{
 
-    0%{
+.gameOverBox {
+    animation: gameOverAnim .4s ease;
+}
 
-        opacity:0;
 
-        transform:translateY(30px);
+.gameOverBox h1 {
+    margin-bottom: 20px;
 
+    color: var(--red-700);
+
+    font-size: clamp(34px, 8vw, 50px);
+}
+
+
+.gameOverBox p {
+    margin-bottom: 20px;
+
+    color: #555;
+}
+
+
+#gameOver button {
+    background: var(--red-700);
+}
+
+
+@media (hover: hover) {
+    #gameOver button:hover {
+        background: var(--red-800);
+    }
+}
+
+
+@keyframes gameOverAnim {
+    from {
+        transform: translateY(-50px);
+
+        opacity: 0;
     }
 
-    20%{
+    to {
+        transform: translateY(0);
 
-        opacity:1;
+        opacity: 1;
+    }
+}
 
+
+/* =========================================================
+   MINIMAPA
+========================================================= */
+
+#minimap {
+    position: fixed;
+
+    right: 18px;
+    bottom: max(75px, calc(18px + env(safe-area-inset-bottom)));
+
+    width: 180px;
+    height: 180px;
+
+    overflow: hidden;
+
+    border: 4px solid var(--white);
+
+    border-radius: 18px;
+
+    background: #5fa56b;
+
+    box-shadow: var(--shadow-medium);
+
+    z-index: 900;
+}
+
+
+#miniCanvas {
+    width: 100%;
+    height: 100%;
+}
+
+
+/* =========================================================
+   JOYSTICK
+========================================================= */
+
+#joystick {
+    position: fixed;
+
+    left: max(20px, env(safe-area-inset-left));
+    bottom: max(20px, env(safe-area-inset-bottom));
+
+    width: 145px;
+    height: 145px;
+
+    display: none;
+
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, .18);
+
+    border: 2px solid rgba(255, 255, 255, .15);
+
+    z-index: 1500;
+
+    touch-action: none;
+}
+
+
+#stick {
+    width: 68px;
+    height: 68px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, .90);
+
+    box-shadow: var(--shadow-medium);
+
+    touch-action: none;
+}
+
+
+/* =========================================================
+   BOTÃO MOBILE
+========================================================= */
+
+#mobileButtons {
+    position: fixed;
+
+    right: max(20px, env(safe-area-inset-right));
+    bottom: max(25px, env(safe-area-inset-bottom));
+
+    display: none;
+
+    z-index: 1500;
+}
+
+
+#pauseMobile {
+    width: 70px;
+    height: 70px;
+
+    border-radius: 50%;
+
+    background: var(--green-800);
+
+    color: var(--white);
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+    box-shadow: var(--shadow-medium);
+}
+
+
+/* =========================================================
+   CONFIGURAÇÕES
+========================================================= */
+
+#settingsScreen {
+    z-index: 4600;
+}
+
+
+.settingsBox {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 10px;
+}
+
+
+.settingsBox h1 {
+    margin-bottom: 15px;
+
+    color: var(--green-800);
+
+    font-size: clamp(28px, 7vw, 40px);
+}
+
+
+.settingsBox label {
+    color: #555;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    text-align: left;
+}
+
+
+#volumeControl {
+    width: 100%;
+
+    accent-color: var(--green-600);
+}
+
+
+#graphicsQuality {
+    width: 100%;
+
+    min-height: 45px;
+
+    padding: 5px 12px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    background: var(--white);
+
+    color: #333;
+}
+
+
+/* =========================================================
+   SELEÇÃO DE FASE
+========================================================= */
+
+#levelSelect {
+    z-index: 4600;
+}
+
+
+.levelBox h1 {
+    margin-bottom: 25px;
+
+    color: var(--green-800);
+
+    font-size: clamp(28px, 7vw, 40px);
+}
+
+
+.levels {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 12px;
+}
+
+
+.levelButton {
+    min-height: 90px;
+
+    padding: 12px;
+
+    border-radius: 16px;
+
+    background: #f1f5f1;
+
+    color: var(--green-900);
+
+    box-shadow: var(--shadow-small);
+}
+
+
+.levelButton strong,
+.levelButton span {
+    display: block;
+}
+
+
+.levelButton strong {
+    font-size: 18px;
+}
+
+
+.levelButton span {
+    margin-top: 5px;
+
+    color: #666;
+
+    font-size: 13px;
+}
+
+
+@media (hover: hover) {
+    .levelButton:hover {
+        background: #dcefdc;
+    }
+}
+
+
+/* =========================================================
+   CONQUISTAS
+========================================================= */
+
+#achievementScreen {
+    z-index: 4600;
+}
+
+
+.achievementBox h1,
+.rankingBox h1,
+.finalBox h1,
+.creditsBox h1 {
+    margin-bottom: 25px;
+
+    color: var(--green-800);
+
+    font-size: clamp(28px, 7vw, 40px);
+}
+
+
+#achievementList {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    max-height: 50vh;
+
+    overflow-y: auto;
+
+    padding-right: 4px;
+}
+
+
+.achievement {
+    padding: 14px;
+
+    border-radius: 14px;
+
+    background: #edf4ed;
+
+    text-align: left;
+
+    transition: opacity .2s ease;
+}
+
+
+.achievement strong,
+.achievement span {
+    display: block;
+}
+
+
+.achievement strong {
+    color: var(--green-900);
+
+    font-size: 15px;
+}
+
+
+.achievement span {
+    margin-top: 3px;
+
+    color: #666;
+
+    font-size: 12px;
+}
+
+
+.achievement.locked {
+    opacity: .50;
+
+    filter: grayscale(.7);
+}
+
+
+.achievement.unlocked {
+    opacity: 1;
+
+    filter: none;
+
+    background: #e1f2e1;
+}
+
+
+/* =========================================================
+   RANKING
+========================================================= */
+
+#rankingScreen {
+    z-index: 4600;
+}
+
+
+#rankingList {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    margin-bottom: 20px;
+
+    padding-left: 30px;
+
+    text-align: left;
+}
+
+
+#rankingList li {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 10px;
+
+    border-radius: 10px;
+
+    background: #f2f5f2;
+
+    color: #444;
+
+    font-size: 14px;
+}
+
+
+#rankingList strong {
+    color: var(--green-800);
+}
+
+
+/* =========================================================
+   TELA FINAL
+========================================================= */
+
+#finalScreen {
+    z-index: 4700;
+}
+
+
+.finalStats {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+
+    color: #555;
+}
+
+
+.finalStats strong {
+    color: var(--green-800);
+}
+
+
+/* =========================================================
+   CRÉDITOS
+========================================================= */
+
+#creditsScreen {
+    z-index: 4600;
+}
+
+
+.creditsBox p {
+    margin-bottom: 12px;
+
+    color: #555;
+
+    line-height: 1.5;
+}
+
+
+.techList {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    margin: 20px 0;
+}
+
+
+.techList span {
+    padding: 7px 12px;
+
+    border-radius: 50px;
+
+    background: #e8f3e8;
+
+    color: var(--green-800);
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   NOTIFICAÇÕES
+========================================================= */
+
+#notificationContainer {
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: 3000;
+}
+
+
+.notification {
+    position: absolute;
+
+    top: 120px;
+    left: 50%;
+
+    max-width: 90vw;
+
+    padding: 12px 22px;
+
+    transform: translateX(-50%);
+
+    border-radius: 50px;
+
+    background: rgba(0, 0, 0, .65);
+
+    color: var(--white);
+
+    text-align: center;
+
+    font-size: clamp(15px, 3vw, 22px);
+
+    font-weight: 700;
+
+    box-shadow: var(--shadow-small);
+
+    animation: notificationAnim 2.5s ease forwards;
+}
+
+
+@keyframes notificationAnim {
+    0% {
+        opacity: 0;
+
+        transform:
+            translate(-50%, -25px);
     }
 
-    100%{
+    15%,
+    80% {
+        opacity: 1;
 
-        opacity:0;
-
-        transform:translateY(-80px);
-
+        transform:
+            translate(-50%, 0);
     }
 
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(-50%, -60px);
+    }
 }
 
-/*==========================================
-BARRA DE EXPERIÊNCIA
-==========================================*/
 
-#xpBar{
+/* =========================================================
+   EVOLUÇÃO
+========================================================= */
 
-    position:absolute;
+#evolutionMessage {
+    position: fixed;
 
-    left:50%;
+    top: 50%;
+    left: 50%;
 
-    transform:translateX(-50%);
+    width: min(500px, 90vw);
 
-    top:80px;
+    padding: 25px;
 
-    width:340px;
+    transform: translate(-50%, -50%);
 
-    height:20px;
+    display: none;
 
-    background:rgba(255,255,255,.35);
+    border-radius: 20px;
 
-    border-radius:20px;
+    background: rgba(0, 0, 0, .75);
 
-    overflow:hidden;
+    color: var(--white);
 
-    z-index:950;
+    text-align: center;
 
+    z-index: 4800;
+
+    pointer-events: none;
 }
 
-#xpFill{
 
-    width:0%;
+#evolutionTitle {
+    color: var(--green-300);
 
-    height:100%;
-
-    background:linear-gradient(
-        90deg,
-        #66bb6a,
-        #2e7d32
-    );
-
-    transition:width .3s ease;
-
+    font-size: clamp(28px, 7vw, 45px);
 }
 
-/*==========================================
-INDICADOR DE TAMANHO
-==========================================*/
 
-#sizeIndicator{
+#evolutionDescription {
+    margin-top: 10px;
 
-    position:absolute;
-
-    bottom:260px;
-
-    left:20px;
-
-    background:rgba(255,255,255,.85);
-
-    padding:10px 18px;
-
-    border-radius:18px;
-
-    color:#2e7d32;
-
-    font-weight:bold;
-
-    box-shadow:0 5px 15px rgba(0,0,0,.2);
-
+    color: rgba(255, 255, 255, .85);
 }
 
-/*==========================================
-NUVENS DECORATIVAS
-==========================================*/
 
-.cloud{
+/* =========================================================
+   SAVE
+========================================================= */
 
-    position:absolute;
+#saveMessage {
+    position: fixed;
 
-    background:white;
+    left: 50%;
+    bottom: 15%;
 
-    border-radius:50px;
+    padding: 8px 18px;
 
-    opacity:.35;
+    transform: translateX(-50%);
 
-    animation:cloudMove 40s linear infinite;
+    display: none;
 
+    border-radius: 50px;
+
+    background: rgba(0, 0, 0, .60);
+
+    color: var(--white);
+
+    font-size: 13px;
+
+    z-index: 3000;
+
+    pointer-events: none;
 }
+
+
+/* =========================================================
+   EFEITOS
+========================================================= */
+
+#effectsLayer {
+    position: fixed;
+
+    inset: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+
+    z-index: 2500;
+}
+
+
+.particle {
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #5f8d2b;
+
+    pointer-events: none;
+
+    animation:
+        particleLife .65s linear forwards;
+}
+
+
+@keyframes particleLife {
+    0% {
+        opacity: 1;
+
+        transform:
+            translate3d(0, 0, 0)
+            scale(1);
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate3d(0, -45px, 0)
+            scale(0);
+    }
+}
+
+
+.popup {
+    position: absolute;
+
+    color: var(--white);
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    text-shadow:
+        2px 2px 6px #000;
+
+    pointer-events: none;
+
+    animation:
+        itemPopup .8s ease forwards;
+}
+
+
+@keyframes itemPopup {
+    0% {
+        opacity: 0;
+
+        transform:
+            translate3d(0, 25px, 0);
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate3d(0, -70px, 0);
+    }
+}
+
+
+.hitEffect {
+    position: absolute;
+
+    width: 70px;
+    height: 70px;
+
+    border: 4px solid var(--white);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    animation:
+        impact .4s ease forwards;
+}
+
+
+@keyframes impact {
+    from {
+        opacity: 1;
+
+        transform:
+            scale(.2);
+    }
+
+    to {
+        opacity: 0;
+
+        transform:
+            scale(1.8);
+    }
+}
+
+
+/* =========================================================
+   PARTÍCULAS DE ERVA
+========================================================= */
+
+.mateParticle {
+    position: absolute;
+
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+
+    background: #558b2f;
+
+    animation:
+        mateFly .8s linear forwards;
+}
+
+
+@keyframes mateFly {
+    from {
+        opacity: 1;
+
+        transform:
+            translate3d(0, 0, 0)
+            rotate(0);
+    }
+
+    to {
+        opacity: 0;
+
+        transform:
+            translate3d(0, -100px, 0)
+            rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   CONFETE
+========================================================= */
+
+.confetti {
+    position: absolute;
+
+    width: 8px;
+    height: 16px;
+
+    animation:
+        confettiFall 2.5s linear forwards;
+}
+
+
+@keyframes confettiFall {
+    from {
+        transform:
+            translate3d(0, -100px, 0)
+            rotate(0);
+    }
+
+    to {
+        transform:
+            translate3d(0, 100vh, 0)
+            rotate(540deg);
+    }
+}
+
+
+/* =========================================================
+   CIDADE
+========================================================= */
+
+.cityObject {
+    position: absolute;
+
+    pointer-events: none;
+}
+
+
+.building {
+    border-radius: 5px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #777,
+            #aaa,
+            #777
+        );
+
+    box-shadow:
+        0 10px 18px rgba(0, 0, 0, .20);
+}
+
+
+.window {
+    background: #ffe082;
+
+    box-shadow:
+        0 0 8px rgba(255, 245, 157, .7);
+}
+
+
+.house {
+    border-radius:
+        10px 10px 5px 5px;
+
+    background: #ef6c00;
+
+    box-shadow:
+        0 8px 15px rgba(0, 0, 0, .25);
+}
+
+
+.houseRoof {
+    background: #b71c1c;
+
+    clip-path:
+        polygon(
+            50% 0,
+            100% 100%,
+            0 100%
+        );
+}
+
+
+.tree {
+    position: absolute;
+}
+
+
+.treeTop {
+    width: 80px;
+    height: 80px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #4caf50,
+            #1b5e20
+        );
+}
+
+
+.treeTrunk {
+    width: 20px;
+    height: 50px;
+
+    margin: auto;
+
+    background: #795548;
+}
+
+
+/* =========================================================
+   MUNDO DO JOGO
+========================================================= */
+
+.gameWorld {
+    position: absolute;
+
+    width: 5000px;
+    height: 5000px;
+
+    overflow: hidden;
+
+    background-color: #67b56e;
+
+    background-image:
+        linear-gradient(
+            90deg,
+            rgba(255, 255, 255, .035) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            rgba(255, 255, 255, .035) 1px,
+            transparent 1px
+        );
+
+    background-size: 100px 100px;
+}
+
+
+/* =========================================================
+   OBJETOS ENGOLÍVEIS
+========================================================= */
+
+.foodObject {
+    position: absolute;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    font-size: 25px;
+
+    pointer-events: auto;
+}
+
+
+/*
+ * Hover só é necessário em computadores.
+ * Evita trabalho inútil em touch.
+ */
+
+@media (hover: hover) {
+    .foodObject:hover {
+        transform: scale(1.08);
+    }
+}
+
+
+.waterDrop {
+    color: #2196f3;
+}
+
+
+.herb {
+    color: #558b2f;
+}
+
+
+.bomb {
+    color: #444;
+}
+
+
+.thermos {
+    color: #e53935;
+}
+
+
+.kettle {
+    color: #795548;
+}
+
+
+.gaucho {
+    color: #5d4037;
+}
+
+
+.horse {
+    color: #3e2723;
+}
+
+
+/* =========================================================
+   CUIA
+========================================================= */
+
+.cuiaGlow {
+    animation:
+        cuiaGlow 2s ease-in-out infinite;
+}
+
+
+@keyframes cuiaGlow {
+    0%,
+    100% {
+        filter:
+            drop-shadow(
+                0 0 5px #81c784
+            );
+    }
+
+    50% {
+        filter:
+            drop-shadow(
+                0 0 18px #43a047
+            );
+    }
+}
+
+
+.growAnimation {
+    animation:
+        grow .3s ease;
+}
+
+
+@keyframes grow {
+    0% {
+        transform: scale(.85);
+    }
+
+    50% {
+        transform: scale(1.18);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+.eating {
+    animation:
+        eat .3s ease;
+}
+
+
+@keyframes eat {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+
+/* =========================================================
+   TAMANHO
+========================================================= */
+
+#sizeIndicator {
+    position: fixed;
+
+    left: 20px;
+    bottom: 260px;
+
+    padding: 9px 16px;
+
+    border-radius: 18px;
+
+    background: rgba(255, 255, 255, .85);
+
+    color: var(--green-800);
+
+    font-size: 14px;
+    font-weight: 700;
+
+    box-shadow: var(--shadow-small);
+
+    z-index: 900;
+}
+
+
+/* =========================================================
+   NUVENS
+========================================================= */
+
+.cloud {
+    position: absolute;
+
+    width: 100px;
+    height: 30px;
+
+    border-radius: 50px;
+
+    background: rgba(255, 255, 255, .35);
+
+    /*
+     * A animação só deve ser usada se houver nuvens.
+     */
+    animation:
+        cloudMove 40s linear infinite;
+}
+
 
 .cloud::before,
-.cloud::after{
+.cloud::after {
+    content: "";
 
-    content:"";
+    position: absolute;
 
-    position:absolute;
+    border-radius: 50%;
 
-    background:white;
-
-    border-radius:50%;
-
+    background: inherit;
 }
 
-.cloud::before{
 
-    width:45px;
-    height:45px;
+.cloud::before {
+    width: 45px;
+    height: 45px;
 
-    left:15px;
-    top:-20px;
-
+    left: 15px;
+    top: -20px;
 }
 
-.cloud::after{
 
-    width:60px;
-    height:60px;
+.cloud::after {
+    width: 60px;
+    height: 60px;
 
-    right:10px;
-    top:-28px;
-
+    right: 10px;
+    top: -28px;
 }
 
-@keyframes cloudMove{
 
-    from{
-
-        transform:translateX(-300px);
-
+@keyframes cloudMove {
+    from {
+        transform:
+            translate3d(-300px, 0, 0);
     }
 
-    to{
-
-        transform:translateX(calc(100vw + 300px));
-
+    to {
+        transform:
+            translate3d(
+                calc(100vw + 300px),
+                0,
+                0
+            );
     }
-
 }
 
-/*==========================================
-RESPONSIVO
-==========================================*/
 
-@media(max-width:900px){
+/* =========================================================
+   FASE
+========================================================= */
 
-    #hud{
+.levelComplete {
+    animation:
+        levelFlash 1s ease-in-out infinite;
+}
 
-        flex-direction:column;
 
-        gap:10px;
-
-        align-items:center;
-
+@keyframes levelFlash {
+    0%,
+    100% {
+        opacity: 1;
     }
+
+    50% {
+        opacity: .4;
+    }
+}
+
+
+#levelBanner {
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    display: none;
+
+    color: var(--white);
+
+    font-size: clamp(42px, 10vw, 70px);
+
+    font-weight: 900;
+
+    text-align: center;
+
+    text-shadow:
+        0 5px 20px #000;
+
+    z-index: 5000;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   MODO NOTURNO
+========================================================= */
+
+.nightMode {
+    filter:
+        brightness(.68)
+        contrast(1.05);
+}
+
+
+.nightMode .window {
+    background: #fff176;
+
+    box-shadow:
+        0 0 12px #fff59d;
+}
+
+
+/* =========================================================
+   CHUVA
+========================================================= */
+
+.rainDrop {
+    position: absolute;
+
+    width: 2px;
+    height: 18px;
+
+    background:
+        rgba(255, 255, 255, .55);
+
+    animation:
+        rainFall .7s linear infinite;
+}
+
+
+@keyframes rainFall {
+    from {
+        transform:
+            translate3d(0, -50px, 0);
+    }
+
+    to {
+        transform:
+            translate3d(0, 100vh, 0);
+    }
+}
+
+
+/* =========================================================
+   ANIMAÇÕES UTILITÁRIAS
+========================================================= */
+
+.fadeIn {
+    animation:
+        fadeIn .35s ease;
+}
+
+
+.fadeOut {
+    animation:
+        fadeOut .35s ease forwards;
+}
+
+
+.zoomIn {
+    animation:
+        zoomIn .3s ease;
+}
+
+
+.zoomOut {
+    animation:
+        zoomOut .3s ease;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+
+@keyframes zoomIn {
+    from {
+        transform: scale(.8);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+
+@keyframes zoomOut {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(.8);
+    }
+}
+
+
+/* =========================================================
+   ZOOM DA CÂMERA
+========================================================= */
+
+.cameraZoomIn {
+    animation:
+        cameraIn .45s ease;
+}
+
+
+.cameraZoomOut {
+    animation:
+        cameraOut .45s ease;
+}
+
+
+@keyframes cameraIn {
+    from {
+        transform: scale(.9);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+
+@keyframes cameraOut {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(.9);
+    }
+}
+
+
+/* =========================================================
+   SOMBRA
+========================================================= */
+
+.shadow {
+    filter:
+        drop-shadow(
+            0 8px 7px rgba(0, 0, 0, .30)
+        );
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    #joystick,
+    #mobileButtons {
+        display: flex;
+    }
+
+
+    #minimap {
+        width: 145px;
+        height: 145px;
+    }
+
+
+    #levelInfo {
+        display: none;
+    }
+
+
+    /*
+     * Reduz o número de elementos visuais
+     * ocupando a tela.
+     */
 
     .topLeft,
     .topCenter,
-    .topRight{
+    .topRight {
+        min-width: 95px;
 
-        width:220px;
-
-    }
-
-    #joystick{
-
-        display:flex;
-
-    }
-
-    #mobileButtons{
-
-        display:block;
-
-    }
-
-    #minimap{
-
-        width:150px;
-
-        height:150px;
-
-    }
-
-}
-
-@media(max-width:600px){
-
-    .menuBox{
-
-        width:90%;
-
-        padding:25px;
-
-    }
-
-    .menuBox h1{
-
-        font-size:38px;
-
-    }
-
-    .victoryBox h1,
-    .pauseBox h1,
-    .gameOverBox h1{
-
-        font-size:34px;
-
-    }
-
-    #playButton,
-    #nextButton,
-    #restartButton,
-    #resumeButton{
-
-        width:100%;
-
-    }
-
-}
-/*==========================================
-CIDADE - ELEMENTOS VISUAIS
-==========================================*/
-
-.cityObject{
-
-    position:absolute;
-
-    pointer-events:none;
-
-}
-
-
-/* prédios */
-
-.building{
-
-    background:
-    linear-gradient(
-        90deg,
-        #777,
-        #aaa,
-        #777
-    );
-
-    border-radius:5px;
-
-    box-shadow:
-    inset -10px 0 20px rgba(0,0,0,.25),
-    0 15px 25px rgba(0,0,0,.25);
-
-}
-
-
-/* janelas */
-
-.window{
-
-    background:#ffe082;
-
-    box-shadow:
-    0 0 10px #fff59d;
-
-}
-
-
-/* casas */
-
-.house{
-
-    background:#ef6c00;
-
-    border-radius:10px 10px 5px 5px;
-
-    box-shadow:
-    0 10px 20px rgba(0,0,0,.3);
-
-}
-
-
-.houseRoof{
-
-    background:#b71c1c;
-
-    clip-path:polygon(
-        50% 0,
-        100% 100%,
-        0 100%
-    );
-
-}
-
-
-/* árvores */
-
-.tree{
-
-    position:absolute;
-
-}
-
-
-.treeTop{
-
-    width:80px;
-
-    height:80px;
-
-    background:
-    radial-gradient(
-        circle,
-        #4caf50,
-        #1b5e20
-    );
-
-    border-radius:50%;
-
-    box-shadow:
-    inset -15px -15px 20px rgba(0,0,0,.2);
-
-}
-
-
-.treeTrunk{
-
-    width:20px;
-
-    height:50px;
-
-    background:#795548;
-
-    margin:auto;
-
-}
-
-
-
-/*==========================================
-CUIA DO JOGADOR
-==========================================*/
-
-.cuiaGlow{
-
-    animation:cuiaGlow 2s infinite;
-
-}
-
-
-@keyframes cuiaGlow{
-
-    0%{
-
-        filter:
-        drop-shadow(
-        0 0 5px #81c784
-        );
-
+        padding: 7px 9px;
     }
 
 
-    50%{
-
-        filter:
-        drop-shadow(
-        0 0 25px #43a047
-        );
-
+    .hudBox strong,
+    .topLeft span,
+    .topCenter span,
+    .topRight span {
+        font-size: 20px;
     }
 
 
-    100%{
-
-        filter:
-        drop-shadow(
-        0 0 5px #81c784
-        );
-
+    .hudLabel,
+    .topLeft h2,
+    .topCenter h2,
+    .topRight h2 {
+        font-size: 11px;
     }
-
 }
 
 
+/* =========================================================
+   CELULAR
+========================================================= */
 
-/* crescimento */
+@media (max-width: 600px) {
 
-.growAnimation{
+    #hud {
+        top: 8px;
 
-    animation:grow .3s ease;
+        left: 8px;
+        right: 8px;
 
-}
-
-
-@keyframes grow{
-
-    0%{
-
-        transform:scale(.8);
-
+        gap: 5px;
     }
 
 
-    50%{
+    .hudBox,
+    .topLeft,
+    .topCenter,
+    .topRight {
+        min-width: 0;
 
-        transform:scale(1.25);
+        flex: 1;
 
+        padding: 6px 5px;
+
+        border-radius: 12px;
     }
 
 
-    100%{
-
-        transform:scale(1);
-
-    }
-
-}
-
-
-
-/*==========================================
-EFEITO AO ENGOLIR OBJETO
-==========================================*/
-
-
-.eating{
-
-    animation:eat .35s ease;
-
-}
-
-
-@keyframes eat{
-
-
-    0%{
-
-        transform:scale(1);
-
+    .hudBox strong,
+    .topLeft span,
+    .topCenter span,
+    .topRight span {
+        font-size: 17px;
     }
 
 
-    50%{
-
-        transform:scale(1.2);
-
+    #gameControls {
+        top: 70px;
+        right: 8px;
     }
 
 
-    100%{
+    #gameControls button {
+        width: 38px;
+        height: 38px;
 
-        transform:scale(1);
-
+        font-size: 16px;
     }
 
 
+    #advancedHUD {
+        top: 115px;
+
+        width: 72%;
+    }
+
+
+    #objectiveBox {
+        padding: 6px 10px;
+    }
+
+
+    #xpBar {
+        height: 11px;
+    }
+
+
+    #itemsCounter {
+        font-size: 9px;
+    }
+
+
+    .scoreBox,
+    .timerBox {
+        top: 85px;
+
+        font-size: 11px;
+    }
+
+
+    .scoreBox strong,
+    .timerBox strong {
+        font-size: 14px;
+    }
+
+
+    #levelProgress {
+        width: 55%;
+
+        height: 14px;
+    }
+
+
+    #minimap {
+        width: 120px;
+        height: 120px;
+
+        right: 10px;
+
+        bottom: 105px;
+
+        border-width: 3px;
+    }
+
+
+    #joystick {
+        width: 125px;
+        height: 125px;
+    }
+
+
+    #stick {
+        width: 58px;
+        height: 58px;
+    }
+
+
+    #pauseMobile {
+        width: 62px;
+        height: 62px;
+
+        font-size: 25px;
+    }
+
+
+    .levels {
+        grid-template-columns: 1fr;
+    }
+
+
+    .levelButton {
+        min-height: 65px;
+    }
+
+
+    .menuBox {
+        padding: 24px 20px;
+    }
+
+
+    .menuBox h1 {
+        font-size: 38px;
+    }
+
+
+    .menuBox p {
+        margin-bottom: 20px;
+
+        font-size: 14px;
+    }
+
+
+    .menuButtons button {
+        min-height: 45px;
+
+        font-size: 15px;
+    }
+
+
+    .menuButtons button:first-child {
+        min-height: 55px;
+
+        font-size: 21px;
+    }
 }
 
 
+/* =========================================================
+   CELULARES MUITO PEQUENOS
+========================================================= */
 
-/*==========================================
-ÁREA DE JOGO
-==========================================*/
+@media (max-width: 380px) {
 
+    #hud {
+        transform: scale(.90);
 
-.gameWorld{
-
-    position:absolute;
-
-    overflow:hidden;
-
-    width:5000px;
-
-    height:5000px;
-
-    background:
-
-    linear-gradient(
-        90deg,
-        rgba(255,255,255,.05) 1px,
-        transparent 1px
-    ),
-
-    linear-gradient(
-        rgba(255,255,255,.05) 1px,
-        transparent 1px
-    );
-
-    background-size:
-
-    100px 100px;
+        transform-origin: top center;
+    }
 
 
+    #advancedHUD {
+        top: 105px;
+
+        width: 68%;
+    }
+
+
+    #minimap {
+        width: 95px;
+        height: 95px;
+
+        bottom: 95px;
+    }
+
+
+    #joystick {
+        width: 105px;
+        height: 105px;
+    }
+
+
+    #stick {
+        width: 50px;
+        height: 50px;
+    }
+
+
+    #pauseMobile {
+        width: 55px;
+        height: 55px;
+
+        font-size: 22px;
+    }
+
+
+    #message {
+        font-size: 18px;
+    }
+
+
+    #levelProgress {
+        width: 50%;
+    }
 }
 
 
-/*==========================================
-OBJETOS ENGOLÍVEIS
-==========================================*/
+/* =========================================================
+   CELULAR EM PAISAGEM
+========================================================= */
+
+@media (
+    max-height: 500px
+) and (
+    orientation: landscape
+) {
+
+    #hud {
+        top: 5px;
+    }
 
 
-.foodObject{
+    #advancedHUD {
+        top: 65px;
 
-    position:absolute;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    font-size:25px;
-
-    transition:.2s;
+        width: min(360px, 55vw);
+    }
 
 
+    #levelInfo {
+        display: none;
+    }
+
+
+    #minimap {
+        width: 100px;
+        height: 100px;
+
+        bottom: 10px;
+    }
+
+
+    #joystick {
+        width: 105px;
+        height: 105px;
+
+        bottom: 10px;
+    }
+
+
+    #stick {
+        width: 50px;
+        height: 50px;
+    }
+
+
+    #mobileButtons {
+        bottom: 15px;
+    }
+
+
+    #pauseMobile {
+        width: 55px;
+        height: 55px;
+    }
+
+
+    #levelProgress {
+        bottom: 8px;
+
+        height: 12px;
+    }
+
+
+    .menuBox {
+        max-height: 92vh;
+
+        padding: 15px;
+
+        overflow-y: auto;
+    }
+
+
+    .menuBox h1 {
+        font-size: 30px;
+    }
+
+
+    .menuBox p {
+        margin-bottom: 10px;
+    }
+
+
+    .menuButtons {
+        gap: 5px;
+    }
+
+
+    .menuButtons button {
+        min-height: 35px;
+    }
 }
 
 
-.foodObject:hover{
+/* =========================================================
+   TELAS GRANDES
+========================================================= */
 
-    transform:scale(1.1);
+@media (min-width: 1600px) {
 
+    .menuBox h1 {
+        font-size: 62px;
+    }
+
+
+    .hudBox strong,
+    .topLeft span,
+    .topCenter span,
+    .topRight span {
+        font-size: 32px;
+    }
+
+
+    #minimap {
+        width: 220px;
+        height: 220px;
+    }
 }
 
 
+/* =========================================================
+   REDUÇÃO DE MOVIMENTO
+   Acessibilidade + desempenho
+========================================================= */
 
-/* água */
+@media (prefers-reduced-motion: reduce) {
 
-.waterDrop{
+    *,
+    *::before,
+    *::after {
+        animation-duration: .001ms !important;
 
-    color:#2196f3;
+        animation-iteration-count: 1 !important;
 
+        scroll-behavior: auto !important;
+
+        transition-duration: .001ms !important;
+    }
+}
+
+
+/* =========================================================
+   MODO DE BAIXO DESEMPENHO
+   O JavaScript pode adicionar .lowQuality ao body.
+========================================================= */
+
+body.lowQuality .cloud {
+    display: none;
+}
+
+
+body.lowQuality .rainDrop {
+    display: none;
+}
+
+
+body.lowQuality .particle {
+    animation: none;
+
+    opacity: 0;
+}
+
+
+body.lowQuality .mateParticle {
+    animation: none;
+
+    opacity: 0;
+}
+
+
+body.lowQuality .confetti {
+    animation: none;
+
+    opacity: 0;
+}
+
+
+body.lowQuality .cuiaGlow {
+    animation: none;
+
+    filter: none;
+}
+
+
+body.lowQuality .shadow {
+    filter: none;
+}
+
+
+body.lowQuality .building {
+    box-shadow: none;
+}
+
+
+body.lowQuality .treeTop {
+    box-shadow: none;
+}
+
+
+body.lowQuality .house {
+    box-shadow: none;
+}
+
+
+body.lowQuality .hudBox,
+body.lowQuality .topLeft,
+body.lowQuality .topCenter,
+body.lowQuality .topRight {
+    backdrop-filter: none;
+
+    -webkit-backdrop-filter: none;
+}
+
+
+/* =========================================================
+   MODO MÉDIO
+========================================================= */
+
+body.mediumQuality .cloud {
+    animation-duration: 80s;
+}
+
+
+body.mediumQuality .cuiaGlow {
+    animation-duration: 3s;
+}
+
+
+body.mediumQuality .shadow {
     filter:
-    drop-shadow(
-    0 0 8px #2196f3
-    );
-
+        drop-shadow(
+            0 5px 4px rgba(0, 0, 0, .22)
+        );
 }
 
 
+/* =========================================================
+   ECONOMIA DE BATERIA
+========================================================= */
 
-/* erva */
-
-.herb{
-
-    color:#558b2f;
-
+body.batterySaver .cloud,
+body.batterySaver .rainDrop {
+    display: none;
 }
 
 
-
-/* bomba */
-
-.bomb{
-
-    color:#444;
-
+body.batterySaver .cuiaGlow,
+body.batterySaver .levelComplete {
+    animation: none;
 }
 
 
-
-/* térmica */
-
-.thermos{
-
-    color:#e53935;
-
+body.batterySaver .shadow {
+    filter: none;
 }
 
 
+/* =========================================================
+   SAFE AREA - CELULARES COM NOTCH
+========================================================= */
 
-/* chaleira */
+@supports (padding: env(safe-area-inset-top)) {
 
-.kettle{
-
-    color:#795548;
-
+    #menu,
+    #loadingScreen {
+        padding:
+            env(safe-area-inset-top)
+            env(safe-area-inset-right)
+            env(safe-area-inset-bottom)
+            env(safe-area-inset-left);
+    }
 }
 
 
+/* =========================================================
+   EVITA EFEITOS DESNECESSÁRIOS EM TOUCH
+========================================================= */
 
-/* gaúcho */
+@media (hover: none) {
 
-.gaucho{
-
-    color:#5d4037;
-
+    button:hover,
+    .foodObject:hover {
+        transform: none;
+    }
 }
 
 
-
-/* cavalo */
-
-.horse{
-
-    color:#3e2723;
-
-}
-
-
-
-/*==========================================
-EFEITO DE FASE
-==========================================*/
-
-
-.levelComplete{
-
-    animation:
-
-    levelFlash 1s infinite;
-
-}
-
-
-
-@keyframes levelFlash{
-
-
-0%{
-
-    opacity:1;
-
-}
-
-
-50%{
-
-    opacity:.4;
-
-}
-
-
-100%{
-
-    opacity:1;
-
-}
-
-}
-
-
-
-/*==========================================
-TELA DE NÍVEL
-==========================================*/
-
-
-#levelBanner{
-
-    position:absolute;
-
-    top:50%;
-
-    left:50%;
-
-    transform:
-    translate(-50%,-50%);
-
-
-    color:white;
-
-    font-size:70px;
-
-    font-weight:900;
-
-    text-shadow:
-
-    0 5px 20px black;
-
-
-    display:none;
-
-    z-index:5000;
-
-}
-
-
-
-/*==========================================
-MODO PAISAGEM CELULAR
-==========================================*/
-
-
-@media(max-height:500px)
-and (orientation:landscape){
-
-
-#hud{
-
-    top:5px;
-
-}
-
-
-#minimap{
-
-    width:120px;
-
-    height:120px;
-
-}
-
-
-#joystick{
-
-    width:120px;
-
-    height:120px;
-
-}
-
-
-}
-/*==========================================
-CUIA.IO - STYLE.CSS
-PARTE 5 - FINAL
-==========================================*/
-
-
-/*==========================================
-BARRA DE PROGRESSO DO NÍVEL
-==========================================*/
-
-
-#levelProgress{
-
-    position:absolute;
-
-    bottom:25px;
-
-    left:50%;
-
-    transform:translateX(-50%);
-
-    width:450px;
-
-    max-width:70%;
-
-    height:25px;
-
-    background:
-
-    rgba(255,255,255,.35);
-
-    border-radius:50px;
-
-    overflow:hidden;
-
-    backdrop-filter:blur(10px);
-
-    box-shadow:
-
-    0 5px 20px rgba(0,0,0,.25);
-
-    z-index:1000;
-
-}
-
-
-#levelProgressFill{
-
-    height:100%;
-
-    width:0%;
-
-    background:
-
-    linear-gradient(
-
-        90deg,
-
-        #8bc34a,
-
-        #2e7d32
-
-    );
-
-
-    border-radius:50px;
-
-
-    transition:
-
-    width .5s ease;
-
-}
-
-
-
-
-/*==========================================
-NOTIFICAÇÕES
-==========================================*/
-
-
-.notification{
-
-
-    position:absolute;
-
-    top:120px;
-
-    left:50%;
-
-    transform:translateX(-50%);
-
-
-    padding:
-
-    15px 30px;
-
-
-    background:
-
-    rgba(0,0,0,.65);
-
-
-    color:white;
-
-
-    border-radius:50px;
-
-
-    font-size:22px;
-
-
-    font-weight:bold;
-
-
-    backdrop-filter:blur(10px);
-
-
-    animation:
-
-    notificationAnim 3s forwards;
-
-
-    z-index:3000;
-
-
-}
-
-
-
-@keyframes notificationAnim{
-
-
-0%{
-
-    opacity:0;
-
-    transform:
-
-    translate(-50%,-30px);
-
-}
-
-
-15%{
-
-    opacity:1;
-
-}
-
-
-80%{
-
-    opacity:1;
-
-}
-
-
-100%{
-
-    opacity:0;
-
-    transform:
-
-    translate(-50%,-100px);
-
-}
-
-
-}
-
-
-
-
-
-/*==========================================
-EFEITO DE IMPACTO
-==========================================*/
-
-
-.hitEffect{
-
-
-    position:absolute;
-
-
-    width:80px;
-
-    height:80px;
-
-
-    border-radius:50%;
-
-
-    border:
-
-    5px solid white;
-
-
-    animation:
-
-    impact .5s forwards;
-
-
-    pointer-events:none;
-
-
-}
-
-
-
-
-@keyframes impact{
-
-
-0%{
-
-    transform:scale(.2);
-
-    opacity:1;
-
-}
-
-
-100%{
-
-    transform:scale(2);
-
-    opacity:0;
-
-}
-
-
-}
-
-
-
-
-/*==========================================
-PARTÍCULAS DE ERVA
-==========================================*/
-
-
-.mateParticle{
-
-
-    position:absolute;
-
-
-    width:12px;
-
-    height:12px;
-
-
-    background:#558b2f;
-
-
-    border-radius:50%;
-
-
-    animation:
-
-    mateFly 1s linear forwards;
-
-
-}
-
-
-
-@keyframes mateFly{
-
-
-0%{
-
-
-    opacity:1;
-
-    transform:
-
-    translateY(0)
-
-    rotate(0deg);
-
-
-}
-
-
-
-100%{
-
-
-    opacity:0;
-
-
-    transform:
-
-
-    translateY(-120px)
-
-    rotate(360deg);
-
-
-}
-
-
-
-}
-
-
-
-
-
-/*==========================================
-CONFETE DE VITÓRIA
-==========================================*/
-
-
-.confetti{
-
-
-    position:absolute;
-
-
-    width:10px;
-
-    height:20px;
-
-
-    animation:
-
-    confettiFall 3s linear forwards;
-
-
-}
-
-
-
-@keyframes confettiFall{
-
-
-0%{
-
-    transform:
-
-    translateY(-100px)
-
-    rotate(0deg);
-
-}
-
-
-
-100%{
-
-    transform:
-
-    translateY(100vh)
-
-    rotate(720deg);
-
-
-}
-
-
-}
-
-
-
-
-
-/*==========================================
-EFEITO DE ZOOM DA CÂMERA
-==========================================*/
-
-
-.cameraZoomIn{
-
-
-    animation:
-
-    cameraIn .5s;
-
-
-}
-
-
-
-.cameraZoomOut{
-
-
-    animation:
-
-    cameraOut .5s;
-
-
-}
-
-
-
-@keyframes cameraIn{
-
-
-from{
-
-    transform:scale(.8);
-
-}
-
-
-to{
-
-    transform:scale(1);
-
-}
-
-
-}
-
-
-
-@keyframes cameraOut{
-
-
-from{
-
-    transform:scale(1);
-
-}
-
-
-to{
-
-    transform:scale(.8);
-
-}
-
-
-}
-
-
-
-
-
-/*==========================================
-SOMBRA DOS ELEMENTOS
-==========================================*/
-
-
-.shadow{
-
-
-filter:
-
-drop-shadow(
-
-0 10px 8px
-
-rgba(0,0,0,.35)
-
-);
-
-
-}
-
-
-
-
-/*==========================================
-MODO ESCURO NOTURNO
-==========================================*/
-
-
-.nightMode{
-
-
-filter:
-
-brightness(.65)
-
-contrast(1.1);
-
-
-}
-
-
-
-.nightMode .window{
-
-
-background:#fff176;
-
-box-shadow:
-
-0 0 15px #fff59d;
-
-
-}
-
-
-
-
-
-/*==========================================
-EFEITO DE CHUVA
-==========================================*/
-
-
-.rainDrop{
-
-
-position:absolute;
-
-
-width:2px;
-
-
-height:20px;
-
-
-background:
-
-rgba(255,255,255,.6);
-
-
-animation:
-
-rainFall .7s linear infinite;
-
-
-}
-
-
-
-@keyframes rainFall{
-
-
-from{
-
-transform:
-
-translateY(-50px);
-
-
-}
-
-
-to{
-
-
-transform:
-
-translateY(100vh);
-
-
-}
-
-
-
-}
-
-
-
-
-
-/*==========================================
-FINALIZAÇÃO
-==========================================*/
-
-
-.hidden{
-
-
-display:none !important;
-
-
-}
-
-
-.visible{
-
-
-display:block !important;
-
-
-}
-
-
-
-
-/*==========================================
-SUPORTE PARA TELAS GRANDES
-==========================================*/
-
-
-@media(min-width:1600px){
-
-
-.menuBox h1{
-
-
-font-size:70px;
-
-
-}
-
-
-
-#hud span{
-
-
-font-size:35px;
-
-
-}
-
-
-
-}
-
-
-
-
-/*==========================================
-SUPORTE PARA CELULAR PEQUENO
-==========================================*/
-
-
-@media(max-width:450px){
-
-
-
-#hud{
-
-
-transform:scale(.85);
-
-
-}
-
-
-
-#message{
-
-
-font-size:20px;
-
-
-}
-
-
-
-#levelProgress{
-
-
-width:250px;
-
-
-}
-
-
-
-}
+/* =========================================================
+   FIM
+========================================================= */
